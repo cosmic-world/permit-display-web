@@ -71,7 +71,7 @@ export default function Header({}) {
         }}
       >
         <label>
-          {currentTime.toLocaleDateString("en-GB")}{" "}
+          {currentTime.toLocaleDateString("en-GB").replace(/\//g, "-")}{" "}
           {currentTime.toLocaleTimeString("en-GB", { hour12: false })}
         </label>
       </div>

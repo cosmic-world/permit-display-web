@@ -28,6 +28,7 @@
   border: 1px solid black;
   height: 30px;
   padding: 0px 2px !important;
+  max-width: 250px;
 }
 
 .header-locationName {
