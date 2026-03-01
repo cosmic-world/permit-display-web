@@ -6,8 +6,6 @@ import { NavBarComponent } from "../action/userSlice";
 
 export default function Header({}) {
   const dispatch = useDispatch();
-  const isUserLoggedIn = useSelector((state) => state.itas.isUserLoggedIn);
-  const user = useSelector((state) => (state.itas.user ? state.itas.user : {}));
   const selectedTerminal = useSelector((state) => state.itas.selectedTerminal);
   const [currentTime, setCurrentTime] = useState(new Date());
 
