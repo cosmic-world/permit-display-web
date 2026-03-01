@@ -10,8 +10,12 @@ import { NavBarComponent } from "./action/userSlice";
 
 function App() {
   const dispatch = useDispatch();
+  const navBarComponent = useSelector((state) => state.itas.navBarComponent);
+  
   useEffect(() => {
-    dispatch(NavBarComponent(""));
+    if(navBarComponent != "permitDisplay"){
+    dispatch(NavBarComponent(""))
+    }
   }, []);
   return (
     <div className="App d-flex flex-column vh-100 vw-100">
