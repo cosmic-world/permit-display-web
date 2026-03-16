@@ -1,0 +1,72 @@
+.ttes_table_div {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+.ttes_table {
+  background-color: #dee4ea;
+}
+.ttes_table > thead tr > th {
+  font-size: 18px;
+  vertical-align: middle;
+  padding: 2px;
+  background-color: brown;
+  color: white;
+  text-align: center;
+  user-select: none;
+  font-family: "Trebuchet MS";
+}
+
+.ttes_table > tbody > tr > td {
+  color: black;
+  text-align: center !important;
+  font-size: 16px;
+  cursor: pointer;
+  vertical-align: middle;
+  font-family: "Trebuchet MS";
+  font-weight: bold;
+  border: 1px solid black;
+  height: 30px;
+  padding: 0px 2px !important;
+  max-width: 250px;
+}
+
+.header-locationName {
+  background-color: blueviolet;
+  cursor: pointer;
+  font-family: Calibri;
+}
+
+.image-div {
+  width: 100% !important;
+  height: 100% !important;
+  /* background-size: cover !important; */
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.legend-table {
+  border-collapse: collapse !important;
+  /* border-spacing: 0; */
+  border: 1px solid black;
+}
+
+.legend-table tr > *:first-child {
+  border-left: none;
+  border-right: none;
+}
+
+.legend-table tr > *:last-child {
+  border-right: none;
+}
+
+.legend-table thead tr:first-child th {
+  border-top: none;
+  border-bottom: none;
+}
+
+.legend-table tbody tr td {
+  border-top: none;
+}
