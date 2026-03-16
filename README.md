@@ -2,8 +2,7 @@ git init
 git add .
 git commit -m "my commit"
 git branch -M main
-git remote add origin https://github.com/cosmic-world/iocl-jrm.git
-git remote add origin https://github.com/<your-github-username>/<repository-name>.git
+git remote add origin https://github.com/cosmic-world/permit-display-web.git
 git push -u origin main
 
 npx prettier --write "src/**/*.{js,jsx,css}" <!-- for local -->
