@@ -59,15 +59,14 @@ function App() {
               ele["Location_Name"].toLowerCase() === locationName.toLowerCase(),
           )
           .filter(
-            (ele) =>
-              formatTime(ele["Clearance given till"]) >
-              new Date().toLocaleTimeString("en-GB"),
+            (ele) =>{
+              return ele["Clearance given till"] >
+              new Date().toLocaleTimeString("en-GB")
+            }
           );
         const filteredData2 = filteredData1.map((item) => ({
           Date: formatDate(item.Timestamp),
           ...item,
-          // "Clearance given from": formatTime(item["Clearance given from"]),
-          // "Clearance given till": formatTime(item["Clearance given till"]),
         }));
         const filteredData = filteredData2.map((obj) =>
           Object.fromEntries(
