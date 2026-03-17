@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { SetPermitList } from "../action/userSlice";
+import { useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import "../css/page_layout.css";
 import {
@@ -14,89 +13,28 @@ import {
 } from "@mui/material";
 
 export default function PermitDisplay() {
-  const dispatch = useDispatch();
-  const { selectedTerminal, PermitList } = useSelector((state) => state.myApp);
-  const locationName = selectedTerminal[selectedTerminal.length - 1];
+  const { PermitList, selectedTerminal } = useSelector((state) => state.myApp);
   const [saveLoader, setSaveLoader] = useState(false);
-  function formatDate(date1) {
-    const date = new Date(...date1.slice(5, -1).split(","));
-    return date
-      .toLocaleDateString("en-GB")
-      .replace(",", "")
-      .replaceAll("/", "-");
-  }
-
-  function formatTime(date1) {
-    const date = new Date(...date1.slice(5, -1).split(","));
-    return date.toLocaleTimeString("en-GB", { hour12: false }).replace(",", "");
-  }
-
-  const SHEET_ID = "1xq4qffj9jqguQn2b8qUvVlIhZwesp2pHiQ29cEPRZEQ";
-
-  useEffect(() => {
-    const fetchSheetData = async () => {
-      try {
-        const response = await fetch(
-          `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=permit_details`,
-        );
-        const text = await response.text();
-        // Remove unwanted characters from response
-        const json = JSON.parse(text.substring(47).slice(0, -2));
-        const rows = json.table.rows.map((row) =>
-          row.c.map((ele) => ele?.v ?? ""),
-        );
-        const cols = json.table.cols.map((col) => col.label);
-
-        // Convert rows into simple array
-        const formattedData = rows.map((row) => {
-          const obj = {};
-          row.forEach((cell, index) => {
-            obj[cols[index]] = cell;
-          });
-          return obj;
-        });
-        const filteredData1 = formattedData
-          .filter(
-            (ele) =>
-              ele["Location_Name"].toLowerCase() === locationName.toLowerCase(),
-          )
-          .filter(
-            (ele) =>
-              formatTime(ele["Clearance given till"]) >
-              new Date().toLocaleTimeString("en-GB"),
-          );
-        const filteredData2 = filteredData1.map((item) => ({
-          Date: formatDate(item.Timestamp),
-          ...item,
-          // "Clearance given from": formatTime(item["Clearance given from"]),
-          // "Clearance given till": formatTime(item["Clearance given till"]),
-        }));
-        const filteredData = filteredData2.map((obj) =>
-          Object.fromEntries(
-            Object.entries(obj).filter(
-              ([key]) => !["Timestamp", "Jdbc_Status"].includes(key),
-            ),
-          ),
-        );
-        // // ✅ Save into useState list
-        dispatch(SetPermitList(filteredData));
-      } catch (error) {
-        console.error("Error fetching sheet data2:", error);
-      }
-    };
-    setInterval(() => {
-      fetchSheetData();
-    }, 10000);
-  }, []);
-
   const [menuPosition, setMenuPosition] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
   const [rowNumber, setRowNumber] = useState(null);
   const [oldrowNumber, setOldRowNumber] = useState(null);
   const [mark, setMark] = useState("new");
+  const locationName = selectedTerminal[selectedTerminal.length - 1];
+
   const handleClick = (e, value) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
     setMenuPosition({
       mouseX: e.clientX,
       mouseY: e.clientY,
+    });
+
+    setMarkerPosition({
+      mouseX: x,
+      mouseY: y,
     });
     setMark(value);
   };
@@ -124,15 +62,15 @@ export default function PermitDisplay() {
         body: new URLSearchParams({
           row: rowNumber + 1,
           updates: JSON.stringify([
-            { col: 14, value: mark === "existing" ? y : menuPosition.mouseY },
-            { col: 15, value: mark === "existing" ? x : menuPosition.mouseX },
+            { col: 14, value: mark === "existing" ? y : markerPosition.mouseY },
+            { col: 15, value: mark === "existing" ? x : markerPosition.mouseX },
           ]),
         }),
       });
       mark != "existing" ? setSaveLoader(false) : null;
       handleMenuClose();
     } catch (error) {
-      console.error(error);
+      alert(`${error} and also check internet connection`);
     }
     if (mark === "existing") {
       try {
@@ -149,13 +87,33 @@ export default function PermitDisplay() {
         });
         setSaveLoader(false);
       } catch (error) {
-        console.error(error);
+        alert(`${error} and also check internet connection`);
       }
     }
   };
 
+  const [imgExists, setImgExists] = useState(true);
+  const imagePath = `${process.env.PUBLIC_URL}/asset/${locationName ? locationName.replace(/\s+/g, "_").toLowerCase() : "No"}.png`;
+  useEffect(() => {
+    const img = new Image();
+    img.src = imagePath;
+    img.onload = () => setImgExists(true);
+    img.onerror = () => setImgExists(false);
+  }, [imagePath]);
   return (
     <>
+      {saveLoader ? (
+        <CircularProgress
+          color="success"
+          style={{
+            position: "fixed",
+            zIndex: 2000,
+            zoom: 3,
+            left: "50%",
+            top: "50%",
+          }}
+        />
+      ) : null}
       <div
         className={
           "d-flex justify-content-center align-items-start w-100 h-100 p-2"
@@ -262,28 +220,130 @@ export default function PermitDisplay() {
             </tbody>
           </Table>
         </div>
-        <div
-          className="image-div"
-          onDoubleClick={(e) => handleClick(e, "new")}
-          style={{
-            position: "relative",
-            width: "80%",
-            background: `url(${process.env.PUBLIC_URL}/asset/coimbatore_terminal.png)`,
-          }}
-        >
-          {saveLoader ? (
-            <CircularProgress
-              color="success"
+        {imgExists ? (
+          <div className="p-3 h-100 w-100" style={{ border: "1px solid" }}>
+            <div
               style={{
-                position: "fixed",
-                zIndex: 2000,
-                zoom: 3,
-                left: "50%",
-                top: "50%",
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
               }}
-            />
-          ) : null}
-        </div>
+              onDoubleClick={(e) => handleClick(e, "new")}
+            >
+              <img
+                src={imagePath}
+                alt="layout"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                }}
+              />
+              {PermitList.filter((val) => val.page_left && val.page_top).map(
+                (val, index) => {
+                  const text = Object.entries(val)
+                    .filter(
+                      ([key]) =>
+                        key !== "" && key !== "page_top" && key !== "page_left",
+                    )
+                    .map(([key, value]) => `${key} : ${value}`)
+                    .join("\n");
+                  return (
+                    <Tooltip
+                      key={index}
+                      arrow
+                      placement="right-start"
+                      slotProps={{
+                        tooltip: {
+                          sx: {
+                            backgroundColor: "#fff",
+                            color: "black",
+                            border: "1px solid #ccc",
+                            fontSize: "12px",
+                            fontFamily: "lucida sans",
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: "#fff",
+                          },
+                        },
+                      }}
+                      title={
+                        <Table bordered>
+                          <tbody>
+                            {Object.entries(val)
+                              .filter(
+                                ([key]) =>
+                                  key !== "Unique ID" &&
+                                  key !== "" &&
+                                  key !== "page_top" &&
+                                  key !== "page_left",
+                              )
+                              .map(([key, value], index) => (
+                                <tr key={index} style={{}}>
+                                  <td>{key}</td>
+                                  <td>{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </Table>
+                      }
+                    >
+                      <div
+                        key={index}
+                        onDoubleClick={(e) => {
+                          handleClick(e, "existing");
+                          setOldRowNumber(val["Unique ID"]);
+                        }}
+                        style={{
+                          position: "absolute",
+                          zIndex: 1000,
+                          cursor: "pointer",
+                          zoom: 1,
+                          top: `${val.page_top}%`,
+                          left: `${val.page_left}%`,
+                          height: 30,
+                          width: 30,
+                          borderRadius: "50%",
+                          background:
+                            val["Permit Type"] == "HOT WORK"
+                              ? "#e7028c"
+                              : val["Permit Type"] == "COLD WORK"
+                                ? "yellow"
+                                : val["Permit Type"] == "ELECTRICAL WORK"
+                                  ? "#6ccded"
+                                  : val["Permit Type"] == "HEIGHT + HOT WORK"
+                                    ? `linear-gradient(to right, #e7028c 50%, #6ccded 50%)`
+                                    : val["Permit Type"] == "HEIGHT + COLD WORK"
+                                      ? `linear-gradient(to right, yellow 50%, #6ccded 50%)`
+                                      : "#ccc",
+                        }}
+                      />
+                    </Tooltip>
+                  );
+                },
+              )}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              border: "1px solid",
+              fontFamily: "Lucida Sans",
+              fontSize: "2rem",
+              fontWeight: "bold",
+            }}
+          >
+            Layout Not Available
+          </div>
+        )}
       </div>
       <Menu
         open={menuPosition !== null}
@@ -291,7 +351,7 @@ export default function PermitDisplay() {
         anchorReference="anchorPosition"
         anchorPosition={
           menuPosition !== null
-            ? { top: menuPosition.mouseY + 20, left: menuPosition.mouseX + 20 }
+            ? { top: menuPosition.mouseY + 5, left: menuPosition.mouseX + 5 }
             : undefined
         }
         MenuListProps={{
@@ -355,92 +415,6 @@ export default function PermitDisplay() {
           </Button>
         </div>
       </Menu>
-
-      {PermitList.filter((val) => val.page_left && val.page_top).map(
-        (val, index) => {
-          const text = Object.entries(val)
-            .filter(
-              ([key]) =>
-                key !== "" && key !== "page_top" && key !== "page_left",
-            )
-            .map(([key, value]) => `${key} : ${value}`)
-            .join("\n");
-          return (
-            <Tooltip
-              key={index}
-              arrow
-              placement="right-start"
-              slotProps={{
-                tooltip: {
-                  sx: {
-                    backgroundColor: "#fff",
-                    color: "black",
-                    border: "1px solid #ccc",
-                    fontSize: "12px",
-                    fontFamily: "lucida sans",
-                  },
-                },
-                arrow: {
-                  sx: {
-                    color: "#fff",
-                  },
-                },
-              }}
-              title={
-                <Table bordered>
-                  <tbody>
-                    {Object.entries(val)
-                      .filter(
-                        ([key]) =>
-                          key !== "Unique ID" &&
-                          key !== "" &&
-                          key !== "page_top" &&
-                          key !== "page_left",
-                      )
-                      .map(([key, value], index) => (
-                        <tr key={index} style={{}}>
-                          <td>{key}</td>
-                          <td>{value}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              }
-            >
-              <div
-                key={index}
-                onDoubleClick={(e) => {
-                  handleClick(e, "existing");
-                  setOldRowNumber(val["Unique ID"]);
-                }}
-                style={{
-                  position: "absolute",
-                  zIndex: 1000,
-                  cursor: "pointer",
-                  zoom: 1,
-                  top: val.page_top,
-                  left: val.page_left,
-                  height: 30,
-                  width: 30,
-                  borderRadius: "50%",
-                  background:
-                    val["Permit Type"] == "HOT WORK"
-                      ? "#e7028c"
-                      : val["Permit Type"] == "COLD WORK"
-                        ? "yellow"
-                        : val["Permit Type"] == "ELECTRICAL WORK"
-                          ? "#6ccded"
-                          : val["Permit Type"] == "HEIGHT + HOT WORK"
-                            ? `linear-gradient(to right, #e7028c 50%, #6ccded 50%)`
-                            : val["Permit Type"] == "HEIGHT + COLD WORK"
-                              ? `linear-gradient(to right, yellow 50%, #6ccded 50%)`
-                              : "#ccc",
-                }}
-              />
-            </Tooltip>
-          );
-        },
-      )}
     </>
   );
 }

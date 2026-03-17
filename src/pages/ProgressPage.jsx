@@ -45,19 +45,23 @@ function App() {
             obj[cols[index]] = cell;
           });
           return obj;
-        });      
-        dispatch(SetLocationList(formattedData.map((obj) =>
-          Object.fromEntries(
-            Object.entries(obj).filter(
-              ([key]) => !["Passcode"].includes(key),
+        });
+        dispatch(
+          SetLocationList(
+            formattedData.map((obj) =>
+              Object.fromEntries(
+                Object.entries(obj).filter(
+                  ([key]) => !["Passcode"].includes(key),
+                ),
+              ),
             ),
           ),
-        )));
+        );
       } catch (error) {
-        console.error("Error fetching sheet data:", error);
+        alert(`${error} and also check internet connection`);
       }
     };
-      fetchSheetData();
+    fetchSheetData();
   }, []);
 
   return (

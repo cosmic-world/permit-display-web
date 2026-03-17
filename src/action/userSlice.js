@@ -19,14 +19,18 @@ export const userSlice = createSlice({
     SetPermitList: (state, action) => {
       state.PermitList = action.payload;
     },
-      SetLocationList: (state, action) => {
+    SetLocationList: (state, action) => {
       state.locationList = action.payload;
-    }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { NavBarComponent, SelectedTerminal, SetPermitList, SetLocationList } =
-  userSlice.actions;
+export const {
+  NavBarComponent,
+  SelectedTerminal,
+  SetPermitList,
+  SetLocationList,
+} = userSlice.actions;
 
 export default userSlice.reducer;

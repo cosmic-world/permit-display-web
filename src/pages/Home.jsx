@@ -8,7 +8,9 @@ import { NavBarComponent, SelectedTerminal } from "../action/userSlice";
 export default function Home({}) {
   const dispatch = useDispatch();
   const [pass, SetPass] = useState("");
-  const { selectedTerminal, locationList } = useSelector((state) => state.myApp);
+  const { selectedTerminal, locationList } = useSelector(
+    (state) => state.myApp,
+  );
   const [passcode, setPasscode] = useState("");
   const locationName = selectedTerminal[selectedTerminal.length - 1];
   const SHEET_ID = "1xq4qffj9jqguQn2b8qUvVlIhZwesp2pHiQ29cEPRZEQ";
@@ -32,7 +34,7 @@ export default function Home({}) {
             obj[cols[index]] = cell;
           });
           return obj;
-        });      
+        });
         const filteredData = formattedData.filter(
           (ele) =>
             ele["Location_Name"].toLowerCase() === locationName.toLowerCase(),
@@ -46,34 +48,31 @@ export default function Home({}) {
       fetchSheetData();
     }
   }, [locationName]);
-const zlist = [];
+  const zlist = [];
 
-locationList.forEach((obj) => {
-  const existing = zlist.find(
-    (item) => item.value === obj['State Office']
-  );
+  locationList.forEach((obj) => {
+    const existing = zlist.find((item) => item.value === obj["State Office"]);
 
-  if (existing) {
-    existing.children.push({
-      label: obj['Location_Name'],
-      value: obj['Location_Name'],
-    });
-  } else {
-    zlist.push({
-      label: obj['State Office'],
-      value: obj['State Office'],
-      children: [
-        {
-          label: obj['Location_Name'],
-          value: obj['Location_Name'],
-        },
-      ],
-    });
-  }
-});
+    if (existing) {
+      existing.children.push({
+        label: obj["Location_Name"],
+        value: obj["Location_Name"],
+      });
+    } else {
+      zlist.push({
+        label: obj["State Office"],
+        value: obj["State Office"],
+        children: [
+          {
+            label: obj["Location_Name"],
+            value: obj["Location_Name"],
+          },
+        ],
+      });
+    }
+  });
 
-const stateOfficeList = zlist
-console.log('stateOfficeList',stateOfficeList);
+  const stateOfficeList = zlist;
 
   return (
     <div
