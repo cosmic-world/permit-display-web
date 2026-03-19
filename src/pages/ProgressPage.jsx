@@ -58,7 +58,7 @@ function App() {
           ),
         );
       } catch (error) {
-        alert(`${error} and also check internet connection`);
+      console.log('error...',`${error} and also check internet connection`);
       }
     };
     fetchSheetData();
@@ -91,9 +91,9 @@ function App() {
         </h1>
         <h3>Loading... {progress}%</h3>
         <div
+          className="progress-bar"
           style={{
             height: "30px",
-            width: "40%",
             backgroundColor: "#ddd",
             borderRadius: "25px",
             overflow: "hidden",

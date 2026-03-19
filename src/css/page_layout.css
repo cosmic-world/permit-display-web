@@ -1,7 +1,12 @@
 .ttes_table_div {
-  height: 100%;
+  height: 25%;
   width: 100%;
   overflow: auto;
+}
+.ttes_table_div1{
+  height: 100%;
+  width: 100%;
+  overflow: auto;  
 }
 .ttes_table {
   background-color: #dee4ea;
@@ -71,3 +76,27 @@
 .legend-table tbody tr td {
   border-top: none;
 }
+
+.custom-cascader .ant-select-selection-placeholder, .ant-select-selection-item {
+  font-size: 20px !important;
+}
+
+.custom-cascader-dropdown .ant-cascader-menu-item {
+  font-size: 20px !important;
+}
+
+.custom-cascader-dropdown {
+  min-width: 360px !important;   /* increase overall tray width */
+}
+
+.progress-bar{
+  width: 40%
+}
+
+@media (max-width: 768px) {
+  .progress-bar {
+    width: 80%;
+  }
+}
+
+

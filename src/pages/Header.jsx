@@ -77,6 +77,7 @@ export default function Header({}) {
           {navBarComponent == "permitDisplay" ? (
             <>
               <MenuItem
+                className="d-none d-xxl-block" 
                 onClick={() => {
                   dispatch(NavBarComponent("layoutDisplay"));
                   setAnchorE1(null);
@@ -100,7 +101,7 @@ export default function Header({}) {
         }
       />
       <div
-        className="d-flex justify-content-center align-items-center h-100"
+        className="d-flex flex-grow-1 justify-content-center align-items-center h-100"
         style={{
           color: "white",
           backgroundColor: "#0d6efd",
@@ -114,7 +115,7 @@ export default function Header({}) {
       {/* locationName */}
       <div
         className={`header-locationName h-100
-      fw-bold d-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
+      fw-bold d-none d-xxl-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
       >
         <Typewriter
           options={{
@@ -129,7 +130,7 @@ export default function Header({}) {
 
       {/* current date-time stamp display */}
       <div
-        className="d-flex justify-content-center align-items-center h-100"
+        className="d-none d-xxl-flex justify-content-center align-items-center h-100"
         style={{
           color: "white",
           backgroundColor: "#0d6efd",
@@ -143,7 +144,7 @@ export default function Header({}) {
       </div>
 
       <div
-        className="d-flex justify-content-center align-items-center h-100"
+        className="d-none d-xxl-flex justify-content-center align-items-center h-100"
         style={{
           color: "#0d6efd",
           // backgroundColor: "#0d6efd",

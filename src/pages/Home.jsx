@@ -37,7 +37,7 @@ export default function Home({}) {
         });
         const filteredData = formattedData.filter(
           (ele) =>
-            ele["Location_Name"].toLowerCase() === locationName.toLowerCase(),
+            ele["Location_Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
         );
         setPasscode(filteredData.length > 0 ? filteredData[0]["Passcode"] : "");
       } catch (error) {
@@ -83,6 +83,8 @@ export default function Home({}) {
       }}
     >
       <Cascader
+        className="custom-cascader"
+        popupClassName="custom-cascader-dropdown"
         options={stateOfficeList}
         expandTrigger="hover"
         placeholder={
@@ -90,9 +92,8 @@ export default function Home({}) {
             ? "Select Terminal..."
             : `${selectedTerminal[0]} / ${selectedTerminal[selectedTerminal.length - 1]}`
         }
-        className="custom-cascader"
         style={{
-          width: "40vw",
+          width: 360,
           height: 60,
           marginBottom: 20,
         }}

@@ -3,7 +3,7 @@ import HOME from "./Home";
 import PermitDisplay from "./permitDisplay";
 import LayoutDisplay from "./layoutDisplay";
 import ProgressPage from "./ProgressPage";
-export default function LandingPage({}) {
+export default function LandingPage({state}) {
   const navBarComponent = useSelector((state) => state.myApp.navBarComponent);
 
   return (
@@ -11,7 +11,7 @@ export default function LandingPage({}) {
       {navBarComponent === "" ? <ProgressPage /> : null}
       {navBarComponent === "home" ? <HOME /> : null}
       {navBarComponent === "permitDisplay" ? <PermitDisplay /> : null}
-      {navBarComponent === "layoutDisplay" ? <LayoutDisplay /> : null}
+      {navBarComponent === "layoutDisplay" ? <LayoutDisplay state={state}/> : null}
     </div>
   );
 }

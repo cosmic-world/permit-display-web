@@ -42,7 +42,7 @@ export default function PermitDisplay() {
         backgroundColor: "#dee4ea",
       }}
     >
-      <div className="ttes_table_div">
+      <div className="ttes_table_div1">
         <Table bordered hover className="ttes_table">
           <thead className="table-head">
             <tr>

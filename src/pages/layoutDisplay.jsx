@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import "../css/page_layout.css";
+import ReactApexChart from "react-apexcharts";
 import {
   Button,
   Menu,
@@ -12,7 +13,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-export default function PermitDisplay() {
+export default function PermitDisplay({state}) {
   const { PermitList, selectedTerminal } = useSelector((state) => state.myApp);
   const [saveLoader, setSaveLoader] = useState(false);
   const [menuPosition, setMenuPosition] = useState(null);
@@ -21,6 +22,31 @@ export default function PermitDisplay() {
   const [oldrowNumber, setOldRowNumber] = useState(null);
   const [mark, setMark] = useState("new");
   const locationName = selectedTerminal[selectedTerminal.length - 1];
+  const [startIndex, setstartIndex] = useState(0);
+  const $table = document.querySelector(".ttes_table_div");
+  const $table_height = $table ? $table.clientHeight : 500;
+  const $thead = document.querySelector(".table-head");
+  const $thead_height = $thead ? $thead.clientHeight : 50;
+  const tbody_rows_count = Math.floor(($table_height - $thead_height) / 30);
+  const step = tbody_rows_count;
+
+  const [clock, setClock] = React.useState(0);
+
+  useEffect(() => {
+    setInterval(() => {
+      if (clock > 5000) {
+        setClock(0);
+      } else {
+        setClock((prevTemp) => prevTemp + 1);
+      }
+    }, 10000);
+  }, []);
+
+  useEffect(() => {
+    setstartIndex((prevState) =>
+      prevState + step < PermitList.length ? prevState + step : 0,
+    );
+  }, [clock]);
 
   const handleClick = (e, value) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -70,7 +96,7 @@ export default function PermitDisplay() {
       mark != "existing" ? setSaveLoader(false) : null;
       handleMenuClose();
     } catch (error) {
-      alert(`${error} and also check internet connection`);
+      console.log('error...',`${error} and also check internet connection`);
     }
     if (mark === "existing") {
       try {
@@ -87,7 +113,7 @@ export default function PermitDisplay() {
         });
         setSaveLoader(false);
       } catch (error) {
-        alert(`${error} and also check internet connection`);
+        console.log('error...',`${error} and also check internet connection`);
       }
     }
   };
@@ -100,6 +126,7 @@ export default function PermitDisplay() {
     img.onload = () => setImgExists(true);
     img.onerror = () => setImgExists(false);
   }, [imagePath]);
+
   return (
     <>
       {saveLoader ? (
@@ -114,26 +141,91 @@ export default function PermitDisplay() {
           }}
         />
       ) : null}
-      <div
-        className={
-          "d-flex justify-content-center align-items-start w-100 h-100 p-2"
+      <Menu
+        open={menuPosition !== null}
+        onClose={() => handleMenuClose()}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          menuPosition !== null
+            ? { top: menuPosition.mouseY + 5, left: menuPosition.mouseX + 5 }
+            : undefined
         }
+        MenuListProps={{
+          sx: {
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+        }}
+      >
+        <MenuItem className="m-0 p-1">
+          <Select
+            defaultValue=""
+            // onChange={(e) => handleSelect(e)}
+            size="small"
+            style={{ width: 300, fontFamily: "lucida sans", fontSize: 14 }}
+          >
+            {PermitList.filter(
+              (val) => val.page_left == "" && val.page_top == "",
+            ).map((val, idx) => {
+              const text = Object.entries(val)
+                .filter(
+                  ([key]) =>
+                    key !== "Unique ID" &&
+                    key !== "" &&
+                    key !== "page_top" &&
+                    key !== "page_left",
+                )
+                .map(([key, value]) => `${key} : ${value}`)
+                .join("\n");
+              return (
+                <MenuItem
+                  key={idx}
+                  value={text}
+                  onClick={() => {
+                    handleSelect(text, val["Unique ID"]);
+                  }}
+                  style={{
+                    fontFamily: "lucida sans",
+                    fontSize: 14,
+                    display: "block",
+                  }}
+                >
+                  <div className="w-100" style={{ whiteSpace: "pre-line" }}>
+                    {text}
+                  </div>
+                  <Divider className="bg-dark mt-2" />
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </MenuItem>
+        <Divider className="bg-dark m-0" />
+        <div className="w-100 d-flex justify-content-center">
+          <Button
+            variant="contained"
+            size="large"
+            className="m-2"
+            onClick={() => handleSubmit()}
+          >
+            Submit
+          </Button>
+        </div>
+      </Menu>
+      <div className={"d-flex flex-column h-100 w-100 justify-content-center align-items-center"}>
+      <div className={"d-flex justify-content-center align-items-start w-100 h-75 p-2"}
         style={{
           overflow: "none",
           overflowX: "auto",
           backgroundColor: "#dee4ea",
         }}
       >
-        <div
-          className={
-            "d-flex flex-column justify-content-center align-items-center"
-          }
+        <div className={"d-flex flex-column justify-content-center align-items-center"}
           style={{ width: "20%", marginRight: "20px" }}
         >
           <Table
             bordered
             hover
-            style={{ backgroundColor: "white" }}
+            style={{ backgroundColor: "white", marginBottom: "2rem" }}
             className="legend-table"
           >
             <thead>
@@ -164,7 +256,7 @@ export default function PermitDisplay() {
                       width: 20,
                       height: 20,
                       borderRadius: "50%",
-                      backgroundColor: "yellow",
+                      backgroundColor: '#d9d90b',
                       marginTop: 2,
                       textAlign: "center",
                     }}
@@ -194,7 +286,7 @@ export default function PermitDisplay() {
                       width: 20,
                       height: 20,
                       borderRadius: "50%",
-                      background: `linear-gradient(to right, yellow 50%, #6ccded 50%)`,
+                      background: `linear-gradient(to right, #d9d90b 50%, #6ccded 50%)`,
                       marginTop: 2,
                       textAlign: "center",
                     }}
@@ -219,6 +311,9 @@ export default function PermitDisplay() {
               </tr>
             </tbody>
           </Table>
+          <div id="chart" style={{border:'1px solid black', backgroundColor:'white'}}>
+            <ReactApexChart options={state.options} series={state.series} type="pie" width={380} />
+          </div>
         </div>
         {imgExists ? (
           <div className="p-3 h-100 w-100" style={{ border: "1px solid" }}>
@@ -311,7 +406,7 @@ export default function PermitDisplay() {
                             val["Permit Type"] == "HOT WORK"
                               ? "#e7028c"
                               : val["Permit Type"] == "COLD WORK"
-                                ? "yellow"
+                                ? '#d9d90b'
                                 : val["Permit Type"] == "ELECTRICAL WORK"
                                   ? "#6ccded"
                                   : val["Permit Type"] == "HEIGHT + HOT WORK"
@@ -345,76 +440,72 @@ export default function PermitDisplay() {
           </div>
         )}
       </div>
-      <Menu
-        open={menuPosition !== null}
-        onClose={() => handleMenuClose()}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          menuPosition !== null
-            ? { top: menuPosition.mouseY + 5, left: menuPosition.mouseX + 5 }
-            : undefined
-        }
-        MenuListProps={{
-          sx: {
-            paddingTop: 0,
-            paddingBottom: 0,
-          },
-        }}
-      >
-        <MenuItem className="m-0 p-1">
-          <Select
-            defaultValue=""
-            // onChange={(e) => handleSelect(e)}
-            size="small"
-            style={{ width: 300, fontFamily: "lucida sans", fontSize: 14 }}
+      <div className="ttes_table_div px-2">
+        <Table bordered hover className="ttes_table m-0">
+          <thead className="table-head">
+            <tr>
+              <th>DATE</th>
+              <th>PERMIT TYPE</th>
+              <th>WORK DESCRIPTION</th>
+              <th>WORK LOCATION</th>
+              <th>RECEIVER NAME</th>
+              <th>CLEARANCE FROM</th>
+              <th>CLEARANCE TILL</th>
+              <th>CONTRACTOR NAME</th>
+              <th>CONTRACTOR SUPERVISOR</th>
+              <th>LOCATION NAME</th>
+              <th>DIVISION</th>
+            </tr>
+          </thead>
+          <tbody
+            style={{
+              overflow: "hidden",
+            }}
           >
-            {PermitList.filter(
-              (val) => val.page_left == "" && val.page_top == "",
-            ).map((val, idx) => {
-              const text = Object.entries(val)
-                .filter(
-                  ([key]) =>
-                    key !== "Unique ID" &&
-                    key !== "" &&
-                    key !== "page_top" &&
-                    key !== "page_left",
-                )
-                .map(([key, value]) => `${key} : ${value}`)
-                .join("\n");
+            {Array.from({ length: tbody_rows_count }, (_, i) => {
+              const permit = PermitList[i + startIndex];
               return (
-                <MenuItem
-                  key={idx}
-                  value={text}
-                  onClick={() => {
-                    handleSelect(text, val["Unique ID"]);
-                  }}
-                  style={{
-                    fontFamily: "lucida sans",
-                    fontSize: 14,
-                    display: "block",
-                  }}
-                >
-                  <div className="w-100" style={{ whiteSpace: "pre-line" }}>
-                    {text}
-                  </div>
-                  <Divider className="bg-dark mt-2" />
-                </MenuItem>
+                <tr key={i}>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Date"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Permit Type"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Work Description"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Work Location"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Receiver Name"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Clearance given from"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Clearance given till"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Contractor Name"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Contractor Supervisor"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Location_Name"] : ""}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {permit ? permit["Division"] : ""}
+                  </td>
+                </tr>
               );
             })}
-          </Select>
-        </MenuItem>
-        <Divider className="bg-dark m-0" />
-        <div className="w-100 d-flex justify-content-center">
-          <Button
-            variant="contained"
-            size="large"
-            className="m-2"
-            onClick={() => handleSubmit()}
-          >
-            Submit
-          </Button>
-        </div>
-      </Menu>
+          </tbody>
+        </Table>
+      </div>
+      </div>
     </>
   );
 }
