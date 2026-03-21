@@ -51,14 +51,14 @@ function App() {
             formattedData.map((obj) =>
               Object.fromEntries(
                 Object.entries(obj).filter(
-                  ([key]) => !["Passcode","Admin_pass"].includes(key),
+                  ([key]) => !["Passcode", "Admin_pass"].includes(key),
                 ),
               ),
             ),
           ),
         );
       } catch (error) {
-      console.log('error...',`${error} and also check internet connection`);
+        console.log("error...", `${error} and also check internet connection`);
       }
     };
     fetchSheetData();

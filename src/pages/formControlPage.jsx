@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import ModalDialog from "react-bootstrap/ModalDialog";
 import Draggable from "react-draggable";
-import {
-  Add,
-  Close,
-} from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import {
   Button,
   TextField,
   CircularProgress,
-  Autocomplete
+  Autocomplete,
 } from "@mui/material";
 import { NavBarComponent } from "../action/userSlice";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -33,21 +30,21 @@ class DraggableModalDialog extends React.Component {
 export default function formControlPage() {
   const dispatch = useDispatch();
   const { selectedTerminal } = useSelector((state) => state.myApp);
-  const [saveLoader, setSaveLoader] = useState(false); 
+  const [saveLoader, setSaveLoader] = useState(false);
   const [show, setShow] = useState(false);
-  const [permitType, setPermitType] = useState("Hot Work");
-  const [workDesc, setWorkDesc] = useState("Test Description");
-  const [workLocation, setWorkLocation] = useState("Test Location");
-  const [receiverName, setReceiverName] = useState("Test Receiver");
-  const [clrStart, setClrStart] = useState("10:00");
-  const [clrEnd, setClrEnd] = useState("17:00");
-  const [contractorName, setContractorName] = useState("Test Contractor");
-  const [supervisorName, setSupervisorName] = useState("Test Supervisor");
-  const [division, setDivision] = useState("Marketing");
+  const [permitType, setPermitType] = useState("");
+  const [workDesc, setWorkDesc] = useState("");
+  const [workLocation, setWorkLocation] = useState("");
+  const [receiverName, setReceiverName] = useState("");
+  const [clrStart, setClrStart] = useState("");
+  const [clrEnd, setClrEnd] = useState("");
+  const [contractorName, setContractorName] = useState("");
+  const [supervisorName, setSupervisorName] = useState("");
+  const [division, setDivision] = useState("");
   const locationName = selectedTerminal[selectedTerminal.length - 1];
 
-  const handleResetForm = () =>{
-    setSaveLoader(false)
+  const handleResetForm = () => {
+    setSaveLoader(false);
     setPermitType("");
     setWorkDesc("");
     setWorkLocation("");
@@ -57,58 +54,59 @@ export default function formControlPage() {
     setContractorName("");
     setSupervisorName("");
     setDivision("");
-  }
+  };
 
   const handleCloseModal = () => {
-    handleResetForm()
+    handleResetForm();
     setShow(false);
   };
 
   const sheet_url = `https://script.google.com/macros/s/AKfycbwy0x_kexcRpJk9yYJqXdZHkIRcATavhupOYqrBlPPHRDQIqLKCv9tDpm_ysDqC0EXZ/exec`;
 
   const handlePostData = async () => {
-    if(permitType=="" || workDesc=="" || workLocation=="" || 
-    receiverName=="" || clrStart=="" || clrEnd=="" || 
-    contractorName=="" || supervisorName=="" || division==""){
-      alert('All fields must be filled')
-      return
+    if (
+      permitType == "" ||
+      workDesc == "" ||
+      workLocation == "" ||
+      receiverName == "" ||
+      clrStart == "" ||
+      clrEnd == "" ||
+      contractorName == "" ||
+      supervisorName == "" ||
+      division == ""
+    ) {
+      alert("All fields must be filled");
+      return;
     }
-      setSaveLoader(true);
+    setSaveLoader(true);
     try {
       await fetch(sheet_url, {
         method: "POST",
         mode: "no-cors",
         body: new URLSearchParams({
-          data: JSON.stringify(
-            {'Permit Type':permitType,'Work Description':workDesc,'Work Location':workLocation,
-              'Receiver Name':receiverName,'Clearance given from':clrStart,'Clearance given till':clrEnd,
-              'Contractor Name':contractorName,'Contractor Supervisor':supervisorName,
-              'Location Name':locationName,'Division':division
-            }
-          ),
+          data: JSON.stringify({
+            "Permit Type": permitType,
+            "Work Description": workDesc,
+            "Work Location": workLocation,
+            "Receiver Name": receiverName,
+            "Clearance given from": clrStart,
+            "Clearance given till": clrEnd,
+            "Contractor Name": contractorName,
+            "Contractor Supervisor": supervisorName,
+            "Location Name": locationName,
+            Division: division,
+          }),
         }),
       });
-      setSaveLoader(false)
+      setSaveLoader(false);
     } catch (error) {
-      setSaveLoader(false)
-      console.log('error...',`${error} and also check internet connection`);
+      setSaveLoader(false);
+      console.log("error...", `${error} and also check internet connection`);
     }
-    }
+  };
 
   return (
     <>
-      {saveLoader ? (
-        <CircularProgress
-          color="success"
-          style={{
-            position: "fixed",
-            zIndex: 2000,
-            zoom: 3,
-            left: "50%",
-            top: "50%",
-          }}
-        />
-      ) : null}
       <Modal
         dialogAs={DraggableModalDialog}
         show={show}
@@ -142,8 +140,22 @@ export default function formControlPage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            position: "relative",
           }}
         >
+          {saveLoader ? (
+            <CircularProgress
+              color="success"
+              sx={{
+                position: "fixed",
+                zIndex: 2000,
+                transform: "translate(-50%, -50%)",
+                left: "45%",
+                top: "40%",
+                zoom: 3,
+              }}
+            />
+          ) : null}
           <div className="row w-100">
             <div
               className="col-4 text-right border-bottom"
@@ -158,20 +170,27 @@ export default function formControlPage() {
               Permit Type
             </div>
             <div className="col-8">
-              <Autocomplete className="w-100"
-                options={['Hot Work','Cold Work','Height + Hot Work',
-                  'Height + Cold Work', 'Electrical Work'
+              <Autocomplete
+                className="w-100"
+                options={[
+                  "Hot Work",
+                  "Cold Work",
+                  "Height + Hot Work",
+                  "Height + Cold Work",
+                  "Electrical Work",
                 ]}
                 name="TTNo"
                 value={permitType !== "" ? permitType : null}
                 isOptionEqualToValue={(option, value) => option === value}
                 onChange={(e, newValue) =>
-                  newValue !== null ? setPermitType(newValue) : setPermitType("")
+                  newValue !== null
+                    ? setPermitType(newValue)
+                    : setPermitType("")
                 }
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    error={division==""}
+                    error={division == ""}
                     InputProps={{
                       ...params.InputProps,
                       style: {
@@ -199,17 +218,19 @@ export default function formControlPage() {
               Work Description
             </div>
             <div className="col-8">
-              <TextField className="w-100"
-              style={{fontFamily: "Lucida Sans", fontSize: 20}}
-              value={workDesc}
-              error={workDesc==""}
-              onChange={(e)=>setWorkDesc(e.target.value)}
-              InputProps={{ 
-                sx: {
-                  fontFamily: "Lucida Sans",
-                  fontSize: "20px",
-                },
-                inputProps: { autoComplete: "off"} }}
+              <TextField
+                className="w-100"
+                style={{ fontFamily: "Lucida Sans", fontSize: 20 }}
+                value={workDesc}
+                error={workDesc == ""}
+                onChange={(e) => setWorkDesc(e.target.value)}
+                InputProps={{
+                  sx: {
+                    fontFamily: "Lucida Sans",
+                    fontSize: "20px",
+                  },
+                  inputProps: { autoComplete: "off" },
+                }}
               />
             </div>
           </div>
@@ -228,17 +249,19 @@ export default function formControlPage() {
               Work Location
             </div>
             <div className="col-8">
-              <TextField className="w-100"
-              style={{fontFamily: "Lucida Sans", fontSize: 20}}
-              value={workLocation}
-              error={workLocation==""}
-              onChange={(e)=>setWorkLocation(e.target.value)}
-              InputProps={{ 
-                sx: {
-                  fontFamily: "Lucida Sans",
-                  fontSize: "20px",
-                },
-                inputProps: { autoComplete: "off"} }}
+              <TextField
+                className="w-100"
+                style={{ fontFamily: "Lucida Sans", fontSize: 20 }}
+                value={workLocation}
+                error={workLocation == ""}
+                onChange={(e) => setWorkLocation(e.target.value)}
+                InputProps={{
+                  sx: {
+                    fontFamily: "Lucida Sans",
+                    fontSize: "20px",
+                  },
+                  inputProps: { autoComplete: "off" },
+                }}
               />
             </div>
           </div>
@@ -257,17 +280,19 @@ export default function formControlPage() {
               Receiver Name
             </div>
             <div className="col-8">
-              <TextField className="w-100"
-              style={{fontFamily: "Lucida Sans", fontSize: 20}}
-              value={receiverName}
-              error={receiverName==""}
-              onChange={(e)=>setReceiverName(e.target.value)}
-              InputProps={{ 
-                sx: {
-                  fontFamily: "Lucida Sans",
-                  fontSize: "20px",
-                },
-                inputProps: { autoComplete: "off"} }}
+              <TextField
+                className="w-100"
+                style={{ fontFamily: "Lucida Sans", fontSize: 20 }}
+                value={receiverName}
+                error={receiverName == ""}
+                onChange={(e) => setReceiverName(e.target.value)}
+                InputProps={{
+                  sx: {
+                    fontFamily: "Lucida Sans",
+                    fontSize: "20px",
+                  },
+                  inputProps: { autoComplete: "off" },
+                }}
               />
             </div>
           </div>
@@ -301,13 +326,13 @@ export default function formControlPage() {
                             fontSize: "20px",
                             fontFamily: "Lucida Sans",
                             color: "black",
-                          }
-                        }
-                      }
+                          },
+                        },
+                      },
                     }}
                     onChange={(newValue) => {
                       if (newValue) {
-                        setClrStart(newValue.format("HH:mm"))
+                        setClrStart(newValue.format("HH:mm"));
                       }
                     }}
                   />
@@ -344,14 +369,14 @@ export default function formControlPage() {
                             fontSize: "20px",
                             fontFamily: "Lucida Sans",
                             color: "black",
-                          }
-                        }
-                      }
+                          },
+                        },
+                      },
                     }}
                     value={clrEnd}
                     onChange={(newValue) => {
                       if (newValue) {
-                        setClrEnd(newValue.format("HH:mm"))
+                        setClrEnd(newValue.format("HH:mm"));
                       }
                     }}
                   />
@@ -374,17 +399,19 @@ export default function formControlPage() {
               Contractor Name
             </div>
             <div className="col-8">
-              <TextField className="w-100"
-              style={{fontFamily: "Lucida Sans", fontSize: 20}}
-              value={contractorName}
-              error={contractorName==""}
-              onChange={(e)=>setContractorName(e.target.value)}
-              InputProps={{ 
-                sx: {
-                  fontFamily: "Lucida Sans",
-                  fontSize: "20px",
-                },
-                inputProps: { autoComplete: "off"} }}
+              <TextField
+                className="w-100"
+                style={{ fontFamily: "Lucida Sans", fontSize: 20 }}
+                value={contractorName}
+                error={contractorName == ""}
+                onChange={(e) => setContractorName(e.target.value)}
+                InputProps={{
+                  sx: {
+                    fontFamily: "Lucida Sans",
+                    fontSize: "20px",
+                  },
+                  inputProps: { autoComplete: "off" },
+                }}
               />
             </div>
           </div>
@@ -403,17 +430,19 @@ export default function formControlPage() {
               Contractor Supervisor
             </div>
             <div className="col-8">
-              <TextField className="w-100"
-              style={{fontFamily: "Lucida Sans", fontSize: 20}}
-              value={supervisorName}
-              error={supervisorName==""}
-              onChange={(e)=>setSupervisorName(e.target.value)}
-              InputProps={{ 
-                sx: {
-                  fontFamily: "Lucida Sans",
-                  fontSize: "20px",
-                },
-                inputProps: { autoComplete: "off"} }}
+              <TextField
+                className="w-100"
+                style={{ fontFamily: "Lucida Sans", fontSize: 20 }}
+                value={supervisorName}
+                error={supervisorName == ""}
+                onChange={(e) => setSupervisorName(e.target.value)}
+                InputProps={{
+                  sx: {
+                    fontFamily: "Lucida Sans",
+                    fontSize: "20px",
+                  },
+                  inputProps: { autoComplete: "off" },
+                }}
               />
             </div>
           </div>
@@ -432,8 +461,9 @@ export default function formControlPage() {
               Division
             </div>
             <div className="col-8">
-              <Autocomplete className="w-100"
-                options={['Marketing','Pipeline']}
+              <Autocomplete
+                className="w-100"
+                options={["Marketing", "Pipeline"]}
                 name="division"
                 value={division !== "" ? division : null}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -443,7 +473,7 @@ export default function formControlPage() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    error={division==""}
+                    error={division == ""}
                     InputProps={{
                       ...params.InputProps,
                       style: {
@@ -466,7 +496,7 @@ export default function formControlPage() {
               width: "200px",
               fontSize: "20px",
               fontWeight: "normal",
-              fontFamily: 'Lucida Sans'
+              fontFamily: "Lucida Sans",
             }}
             onClick={(e) => {
               handlePostData(e);
@@ -482,8 +512,8 @@ export default function formControlPage() {
             style={{
               width: 150,
               fontSize: "18px",
-              fontFamily: 'Lucida Sans',
-              fontWeight: 'normal'
+              fontFamily: "Lucida Sans",
+              fontWeight: "normal",
             }}
             onClick={() => {
               handleResetForm();
@@ -498,8 +528,8 @@ export default function formControlPage() {
             style={{
               width: 150,
               fontSize: "18px",
-              fontFamily: 'Lucida Sans',
-              fontWeight: 'normal'
+              fontFamily: "Lucida Sans",
+              fontWeight: "normal",
             }}
             onClick={() => {
               handleCloseModal();
@@ -519,14 +549,15 @@ export default function formControlPage() {
         >
           Open Form
         </Button>
-        <Button 
-        variant="contained" 
+        <Button
+          variant="contained"
           size="large"
           color="secondary"
           sx={{ width: 200 }}
-        onClick={() => dispatch(NavBarComponent("layoutDisplay"))}>
+          onClick={() => dispatch(NavBarComponent("layoutDisplay"))}
+        >
           Go To Display
-          </Button>
+        </Button>
       </div>
     </>
   );

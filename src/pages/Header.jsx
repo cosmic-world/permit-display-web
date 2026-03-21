@@ -45,14 +45,14 @@ export default function Header({}) {
               sx: {
                 width: 200,
                 "& .MuiMenuItem-root": {
-                fontFamily: "Candara",
-                fontSize: "1.2rem",
-                color: 'black',
-                textAlign: 'center !Important'
+                  fontFamily: "Candara",
+                  fontSize: "1.2rem",
+                  color: "black",
+                  textAlign: "center !Important",
+                },
               },
-              }
             },
-            }}
+          }}
         >
           <MenuItem
             onClick={() => {
@@ -93,7 +93,7 @@ export default function Header({}) {
           {navBarComponent == "permitDisplay" ? (
             <>
               <MenuItem
-                className="d-none d-xxl-flex justify-content-center" 
+                className="d-none d-xxl-flex justify-content-center"
                 onClick={() => {
                   dispatch(NavBarComponent("layoutDisplay"));
                   setAnchorE1(null);
@@ -105,7 +105,7 @@ export default function Header({}) {
             </>
           ) : null}
           <MenuItem
-            className="d-flex justify-content-center" 
+            className="d-flex justify-content-center"
             onClick={() => {
               dispatch(NavBarComponent("contacts"));
               setAnchorE1(null);
@@ -142,7 +142,7 @@ export default function Header({}) {
       <div
         className={`header-locationName h-100
       d-none d-xxl-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
-      style={{fontFamily: 'calibri'}}
+        style={{ fontFamily: "calibri" }}
       >
         <Typewriter
           options={{
@@ -152,7 +152,6 @@ export default function Header({}) {
             loop: true,
             cursor: "",
           }}
-          
         />
       </div>
 

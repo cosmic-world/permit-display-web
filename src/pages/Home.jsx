@@ -38,10 +38,15 @@ export default function Home({}) {
         });
         const filteredData = formattedData.filter(
           (ele) =>
-            ele["Location Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
+            ele["Location Name"].toLowerCase() ===
+            ((locationName !== "") & (locationName != undefined)
+              ? locationName.toLowerCase()
+              : "test"),
         );
         setPasscode(filteredData.length > 0 ? filteredData[0]["Passcode"] : "");
-        SetAdmin_pass(filteredData.length > 0 ? filteredData[0]["Admin_pass"] : "");
+        SetAdmin_pass(
+          filteredData.length > 0 ? filteredData[0]["Admin_pass"] : "",
+        );
       } catch (error) {
         console.error("Error fetching sheet data:", error);
       }

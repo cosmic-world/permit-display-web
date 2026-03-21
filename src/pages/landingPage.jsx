@@ -6,7 +6,7 @@ import ProgressPage from "./ProgressPage";
 import FormControlPage from "./formControlPage";
 import Contacts from "./contacts";
 
-export default function LandingPage({state}) {
+export default function LandingPage({ state }) {
   const navBarComponent = useSelector((state) => state.myApp.navBarComponent);
 
   return (
@@ -15,7 +15,9 @@ export default function LandingPage({state}) {
       {navBarComponent === "home" ? <HOME /> : null}
       {navBarComponent === "formControl" ? <FormControlPage /> : null}
       {navBarComponent === "permitDisplay" ? <PermitDisplay /> : null}
-      {navBarComponent === "layoutDisplay" ? <LayoutDisplay state={state}/> : null}
+      {navBarComponent === "layoutDisplay" ? (
+        <LayoutDisplay state={state} />
+      ) : null}
       {navBarComponent === "contacts" ? <Contacts /> : null}
     </div>
   );

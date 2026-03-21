@@ -27,66 +27,73 @@ function App() {
     (state) => state.myApp,
   );
 
-    const permit_type_array = PermitList.map(val => val['Permit Type']);
-  const permit_labels = ['Hot Work ', 'COLD WORK ', 'Electrical Work ', 'Height + Hot Work ', 'Height + Cold Work ']
-  const series = permit_labels
-    .map(type => { 
-      return permit_type_array.filter(item => item == type.trim()).length
-    })
-    
-    const [state, setState] = useState({
-        series: series,
-        options: {
-          chart: {
-            width: 380,
-            type: 'pie',
-          },
-          legend: {
-            show: false,
-          },
-          colors: ['#e7028c', '#d9d90b', '#6ccded', '#6ccded', '#6ccded'],
-          fill: {
-            type: 'gradient',
-            gradient: {
-              type: 'horizontal',
-              gradientToColors: [
-                '#e7028c',   // solid
-                '#d9d90b',   // solid
-                '#6ccded',   // gradient slice 3
-                '#e7028c',   // gradient slice 4
-                '#d9d90b',     // solid
-              ],
-              stops: [0, 100]
-            }
-          },
-        dataLabels: {
-        style: {
-          fontSize: '16px',
-          fontFamily: 'Lucida Sans', 
-          colors: ['#ffffff'],
-        }
+  const permit_type_array = PermitList.map((val) => val["Permit Type"]);
+  const permit_labels = [
+    "Hot Work ",
+    "COLD WORK ",
+    "Electrical Work ",
+    "Height + Hot Work ",
+    "Height + Cold Work ",
+  ];
+  const series = permit_labels.map((type) => {
+    return permit_type_array.filter((item) => item == type.trim()).length;
+  });
+
+  const [state, setState] = useState({
+    series: series,
+    options: {
+      chart: {
+        width: 380,
+        type: "pie",
       },
-          plotOptions: {
+      legend: {
+        show: false,
+      },
+      colors: ["#e7028c", "#d9d90b", "#6ccded", "#6ccded", "#6ccded"],
+      fill: {
+        type: "gradient",
+        gradient: {
+          type: "horizontal",
+          gradientToColors: [
+            "#e7028c", // solid
+            "#d9d90b", // solid
+            "#6ccded", // gradient slice 3
+            "#e7028c", // gradient slice 4
+            "#d9d90b", // solid
+          ],
+          stops: [0, 100],
+        },
+      },
+      dataLabels: {
+        style: {
+          fontSize: "16px",
+          fontFamily: "Lucida Sans",
+          colors: ["#ffffff"],
+        },
+      },
+      plotOptions: {
         pie: {
           dataLabels: {
-            offset: -20  
-          }
-        }
-      },
-          labels: permit_labels,
-          responsive: [{
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200
-              },
-              legend: {
-                position: 'bottom'
-              },
-            }
-          }]
+            offset: -20,
+          },
         },
-    });
+      },
+      labels: permit_labels,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
+    },
+  });
 
   const locationName = selectedTerminal[selectedTerminal.length - 1];
   const SHEET_ID = "1xq4qffj9jqguQn2b8qUvVlIhZwesp2pHiQ29cEPRZEQ";
@@ -115,18 +122,24 @@ function App() {
           });
           return obj;
         });
-       
-        const filteredData1 = formattedData.length>0 ? formattedData
-          .filter(
-            (ele) =>
-              ele["Location Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
-          )
-          .filter(
-            (ele) =>{
-              return ele["Clearance given till"] >
-              new Date().toLocaleTimeString("en-GB")
-            }
-          ):[];
+
+        const filteredData1 =
+          formattedData.length > 0
+            ? formattedData
+                .filter(
+                  (ele) =>
+                    ele["Location Name"].toLowerCase() ===
+                    ((locationName !== "") & (locationName != undefined)
+                      ? locationName.toLowerCase()
+                      : "test"),
+                )
+                .filter((ele) => {
+                  return (
+                    ele["Clearance given till"] >
+                    new Date().toLocaleTimeString("en-GB")
+                  );
+                })
+            : [];
 
         const filteredData2 = filteredData1.map((item) => ({
           Date: formatDate(item.Timestamp),
@@ -141,19 +154,24 @@ function App() {
           ),
         );
         dispatch(SetPermitList(filteredData));
-        const permit_type_array = filteredData.map(val => val['Permit Type']);
-        const permit_labels = ['Hot Work ', 'COLD WORK ', 'Electrical Work ', 'Height + Hot Work ', 'Height + Cold Work ']
-        const series = permit_labels
-          .map(type => { 
-            return permit_type_array.filter(item => item == type.trim()).length
-          })
+        const permit_type_array = filteredData.map((val) => val["Permit Type"]);
+        const permit_labels = [
+          "Hot Work ",
+          "COLD WORK ",
+          "Electrical Work ",
+          "Height + Hot Work ",
+          "Height + Cold Work ",
+        ];
+        const series = permit_labels.map((type) => {
+          return permit_type_array.filter((item) => item == type.trim()).length;
+        });
 
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          series: series
+          series: series,
         }));
       } catch (error) {
-      console.log('error...',`${error} and also check internet connection`);
+        console.log("error...", `${error} and also check internet connection`);
       }
     };
     if (selectedTerminal !== "") {
@@ -198,7 +216,7 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage state={state}/>} />
+          <Route path="/" element={<LandingPage state={state} />} />
         </Routes>
       </BrowserRouter>
     </div>
