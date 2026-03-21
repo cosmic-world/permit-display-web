@@ -14,21 +14,23 @@ export default function contacts() {
             fontFamily: "Lucida Sans",
             fontStyle: "italic",
             fontWeight: "bold",
-            textAlign:'center'
+            textAlign: "center",
           }}
         >
-          <label className="brand-name">
-            Tas Research & Developers
-          </label>
-          <label style={{ color: "#0458d4", fontStyle: "normal", margin: '1rem' }}>
+          <label className="brand-name">Tas Research & Developers</label>
+          <label
+            style={{ color: "#0458d4", fontStyle: "normal", margin: "1rem" }}
+          >
             <span>
-              <PhoneIcon className="icon-size"/>
+              <PhoneIcon className="icon-size" />
             </span>
             +91 89393 19191
           </label>
-          <label style={{ color: "#d40404", fontStyle: "normal", margin: '1rem' }}>
+          <label
+            style={{ color: "#d40404", fontStyle: "normal", margin: "1rem" }}
+          >
             <span>
-              <AlternateEmailIcon className="icon-size"/>
+              <AlternateEmailIcon className="icon-size" />
             </span>
             sales@tasrnd.in
           </label>
