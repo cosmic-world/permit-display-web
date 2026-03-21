@@ -34,95 +34,100 @@ export default function Header({}) {
         border: "1px solid #0d6efd",
       }}
     >
-      {navBarComponent != "" ?
-      <>
-        <Menu
-          id="profile-dropdown"
-          anchorEl={anchorE1}
-          open={open}
-          aria-hidden={false}
-          onClose={() => setAnchorE1(null)}
-          slotProps={{
-            paper: {
-              sx: {
-                width: 200,
-                "& .MuiMenuItem-root": {
-                  fontFamily: "Candara",
-                  fontSize: "1.2rem",
-                  color: "black",
-                  textAlign: "center !Important",
+      {navBarComponent != "" ? (
+        <>
+          <Menu
+            id="profile-dropdown"
+            anchorEl={anchorE1}
+            open={open}
+            aria-hidden={false}
+            onClose={() => setAnchorE1(null)}
+            slotProps={{
+              paper: {
+                sx: {
+                  width: 200,
+                  "& .MuiMenuItem-root": {
+                    fontFamily: "Candara",
+                    fontSize: "1.2rem",
+                    color: "black",
+                    textAlign: "center !Important",
+                  },
                 },
               },
-            },
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              dispatch(NavBarComponent("home"));
-              dispatch(SetPermitList([]));
-              dispatch(SelectedTerminal(""));
-              setAnchorE1(null);
-            }}
-            className="d-flex justify-content-center"
-          >
-            Home
-          </MenuItem>
-          <Divider className="d-none d-xxl-block bg-dark" />
-          {locationName!="" && locationName!=undefined ? (
-          <>
-          <MenuItem
-            onClick={() => {
-              dispatch(NavBarComponent("formControl"));
-              setAnchorE1(null);
-            }}
-            className="d-flex justify-content-center"
-          >
-            User Form
-          </MenuItem>
-          <Divider className="d-none d-xxl-block bg-dark" />
-          <MenuItem
-            onClick={() => {
-              dispatch(NavBarComponent("permitDisplay"));
-              setAnchorE1(null);
-            }}
-            className="d-flex justify-content-center"
-          >
-            Table View
-          </MenuItem>
-          <Divider className="d-none d-xxl-block bg-dark" />
-          <MenuItem
-            className="d-none d-xxl-flex justify-content-center"
-            onClick={() => {
-              dispatch(NavBarComponent("layoutDisplay"));
-              setAnchorE1(null);
             }}
           >
-            Layout View
-          </MenuItem>
-          <Divider className="d-none d-xxl-block bg-dark" />
-          </>
-          ) : null}
-          <MenuItem
-            className="d-flex justify-content-center"
-            onClick={() => {
-              dispatch(NavBarComponent("contacts"));
-              setAnchorE1(null);
-            }}
-          >
-            Contacts
-          </MenuItem>
-        </Menu>
-          </>
-          :null}
+            <MenuItem
+              selected={navBarComponent == "home"}
+              onClick={() => {
+                dispatch(NavBarComponent("home"));
+                dispatch(SetPermitList([]));
+                dispatch(SelectedTerminal(""));
+                setAnchorE1(null);
+              }}
+              className="d-flex justify-content-center"
+            >
+              Home
+            </MenuItem>
+            <Divider className="d-none d-xxl-block bg-dark" />
+            {locationName != "" && locationName != undefined ? (
+              <>
+                <MenuItem
+                  selected={navBarComponent == "formControl"}
+                  onClick={() => {
+                    dispatch(NavBarComponent("formControl"));
+                    setAnchorE1(null);
+                  }}
+                  className="d-flex justify-content-center"
+                >
+                  User Form
+                </MenuItem>
+                <Divider className="d-none d-xxl-block bg-dark" />
+                <MenuItem
+                  selected={navBarComponent == "permitDisplay"}
+                  onClick={() => {
+                    dispatch(NavBarComponent("permitDisplay"));
+                    setAnchorE1(null);
+                  }}
+                  className="d-flex justify-content-center"
+                >
+                  Table View
+                </MenuItem>
+                <Divider className="d-none d-xxl-block bg-dark" />
+                <MenuItem
+                  selected={navBarComponent == "layoutDisplay"}
+                  className="d-none d-xxl-flex justify-content-center"
+                  onClick={() => {
+                    dispatch(NavBarComponent("layoutDisplay"));
+                    setAnchorE1(null);
+                  }}
+                >
+                  Layout View
+                </MenuItem>
+                <Divider className="d-none d-xxl-block bg-dark" />
+              </>
+            ) : null}
+            <MenuItem
+              selected={navBarComponent == "contacts"}
+              className="d-flex justify-content-center"
+              onClick={() => {
+                dispatch(NavBarComponent("contacts"));
+                setAnchorE1(null);
+              }}
+            >
+              Contacts
+            </MenuItem>
+          </Menu>
+        </>
+      ) : null}
 
       <MenuIcon
         style={{
-          cursor: navBarComponent != ""?'pointer':'default',
+          cursor: navBarComponent != "" ? "pointer" : "default",
           zoom: 1.5,
           color: "black",
         }}
         onClick={(event) =>
-          navBarComponent != ""?setAnchorE1(event.currentTarget):null
+          navBarComponent != "" ? setAnchorE1(event.currentTarget) : null
         }
       />
       <div
