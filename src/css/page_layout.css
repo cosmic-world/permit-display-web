@@ -99,6 +99,21 @@
   height: 800px;
 }
 
+.card-content{
+  font-size: 2rem;
+}
+
+.brand-name{
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
+
+.icon-size{
+  zoom:1.5;
+  margin-right: 5px !important;
+}
+
 @media (max-width: 768px) {
   .progress-bar {
     width: 80%;
@@ -107,4 +122,14 @@
     width: 80%;
     height: 80%;
   }
+  .card-content{
+  font-size: 1rem;
+}
+.brand-name{
+  font-size: 1.5rem;
+}
+.icon-size{
+  zoom:1;
+  margin-right: 50 !important;
+}
 }

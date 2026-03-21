@@ -8,33 +8,27 @@ export default function contacts() {
     <div className="d-flex w-100 h-100 justify-content-center align-items-center">
       <Card className="card-style">
         <CardContent
-          className="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
+          className="card-content w-100 h-100 d-flex flex-column justify-content-center align-items-center"
           style={{
             color: "black",
             fontFamily: "Lucida Sans",
-            fontSize: "2rem",
             fontStyle: "italic",
             fontWeight: "bold",
+            textAlign:'center'
           }}
         >
-          <label
-            style={{
-              marginBottom: "2rem",
-              fontSize: "2.5rem",
-              textTransform: "uppercase",
-            }}
-          >
+          <label className="brand-name">
             Tas Research & Developers
           </label>
-          <label style={{ color: "#0458d4", fontStyle: "normal" }}>
+          <label style={{ color: "#0458d4", fontStyle: "normal", margin: '1rem' }}>
             <span>
-              <PhoneIcon sx={{ m: 3, ms: 0, zoom: 1.5 }} />
+              <PhoneIcon className="icon-size"/>
             </span>
             +91 89393 19191
           </label>
-          <label style={{ color: "#d40404", fontStyle: "normal" }}>
+          <label style={{ color: "#d40404", fontStyle: "normal", margin: '1rem' }}>
             <span>
-              <AlternateEmailIcon sx={{ m: 3, ms: 0, zoom: 1.5 }} />
+              <AlternateEmailIcon className="icon-size"/>
             </span>
             sales@tasrnd.in
           </label>
