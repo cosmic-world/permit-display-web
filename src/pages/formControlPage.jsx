@@ -119,7 +119,7 @@ export default function formControlPage() {
         centered
         style={{ userSelect: "none" }}
       >
-        <Modal.Header style={{ cursor: "move", zIndex: 10 }} closeButton>
+        <Modal.Header style={{ cursor: "move" }}>
           <Modal.Title
             style={{
               fontSize: "25px",
