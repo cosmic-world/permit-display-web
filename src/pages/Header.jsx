@@ -45,7 +45,7 @@ export default function Header({}) {
             slotProps={{
               paper: {
                 sx: {
-                  width: 200,
+                  width: 280,
                   "& .MuiMenuItem-root": {
                     fontFamily: "Candara",
                     fontSize: "1.2rem",
@@ -68,7 +68,7 @@ export default function Header({}) {
             >
               Home
             </MenuItem>
-            <Divider className="d-none d-xxl-block bg-dark" />
+            <Divider className="bg-dark" />
             {locationName != "" && locationName != undefined ? (
               <>
                 <MenuItem
@@ -81,7 +81,7 @@ export default function Header({}) {
                 >
                   User Form
                 </MenuItem>
-                <Divider className="d-none d-xxl-block bg-dark" />
+                <Divider className="bg-dark" />
                 <MenuItem
                   selected={navBarComponent == "permitDisplay"}
                   onClick={() => {
@@ -92,18 +92,19 @@ export default function Header({}) {
                 >
                   Table View
                 </MenuItem>
-                <Divider className="d-none d-xxl-block bg-dark" />
+                <Divider className="bg-dark" />
                 <MenuItem
                   selected={navBarComponent == "layoutDisplay"}
-                  className="d-none d-xxl-flex justify-content-center"
+                  className="d-flex justify-content-center"
+                  disabled={window.innerWidth < 768}
                   onClick={() => {
                     dispatch(NavBarComponent("layoutDisplay"));
                     setAnchorE1(null);
                   }}
                 >
-                  Layout View
+                  Layout View (Desktop Only)
                 </MenuItem>
-                <Divider className="d-none d-xxl-block bg-dark" />
+                <Divider className="bg-dark" />
               </>
             ) : null}
             <MenuItem

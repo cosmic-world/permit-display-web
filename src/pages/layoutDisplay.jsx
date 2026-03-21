@@ -330,7 +330,7 @@ export default function PermitDisplay({ state }) {
                 options={state.options}
                 series={state.series}
                 type="pie"
-                width={380}
+                width={window.innerWidth * 0.2}
               />
             </div>
           </div>
