@@ -8,6 +8,7 @@ import { NavBarComponent, SelectedTerminal } from "../action/userSlice";
 export default function Home({}) {
   const dispatch = useDispatch();
   const [pass, SetPass] = useState("");
+  const [admin_pass, SetAdmin_pass] = useState("");
   const { selectedTerminal, locationList } = useSelector(
     (state) => state.myApp,
   );
@@ -37,9 +38,10 @@ export default function Home({}) {
         });
         const filteredData = formattedData.filter(
           (ele) =>
-            ele["Location_Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
+            ele["Location Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
         );
         setPasscode(filteredData.length > 0 ? filteredData[0]["Passcode"] : "");
+        SetAdmin_pass(filteredData.length > 0 ? filteredData[0]["Admin_pass"] : "");
       } catch (error) {
         console.error("Error fetching sheet data:", error);
       }
@@ -55,8 +57,8 @@ export default function Home({}) {
 
     if (existing) {
       existing.children.push({
-        label: obj["Location_Name"],
-        value: obj["Location_Name"],
+        label: obj["Location Name"],
+        value: obj["Location Name"],
       });
     } else {
       zlist.push({
@@ -64,8 +66,8 @@ export default function Home({}) {
         value: obj["State Office"],
         children: [
           {
-            label: obj["Location_Name"],
-            value: obj["Location_Name"],
+            label: obj["Location Name"],
+            value: obj["Location Name"],
           },
         ],
       });
@@ -75,13 +77,7 @@ export default function Home({}) {
   const stateOfficeList = zlist;
 
   return (
-    <div
-      className="d-flex flex-column justify-content-center align-items-center h-100"
-      style={{
-        background:
-          "radial-gradient(circle, rgb(207, 225, 238) 20%, #f3f2f0 80%)",
-      }}
-    >
+    <div className="d-flex flex-column justify-content-center align-items-center h-100">
       <Cascader
         className="custom-cascader"
         popupClassName="custom-cascader-dropdown"
@@ -116,7 +112,7 @@ export default function Home({}) {
       />
       <Button
         onClick={(e) => {
-          dispatch(NavBarComponent("permitDisplay"));
+          dispatch(NavBarComponent("formControl"));
         }}
         variant="contained"
         size="large"

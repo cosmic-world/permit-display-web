@@ -40,6 +40,7 @@ p {
 }
 .App {
   overflow: auto;
+  background: radial-gradient(circle, rgb(207, 225, 238) 20%, #f3f2f0 80%)
 }
 
 .screen-alert {

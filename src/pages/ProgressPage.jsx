@@ -51,7 +51,7 @@ function App() {
             formattedData.map((obj) =>
               Object.fromEntries(
                 Object.entries(obj).filter(
-                  ([key]) => !["Passcode"].includes(key),
+                  ([key]) => !["Passcode","Admin_pass"].includes(key),
                 ),
               ),
             ),

@@ -96,7 +96,7 @@ export default function PermitDisplay() {
                     {permit ? permit["Contractor Supervisor"] : ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    {permit ? permit["Location_Name"] : ""}
+                    {permit ? permit["Location Name"] : ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
                     {permit ? permit["Division"] : ""}

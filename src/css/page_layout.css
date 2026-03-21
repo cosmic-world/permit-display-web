@@ -93,10 +93,19 @@
   width: 40%
 }
 
+.card-style{
+  width: 800px;
+  height: 800px
+}
+
 @media (max-width: 768px) {
   .progress-bar {
     width: 80%;
   }
+  .card-style{
+  width: 80%;
+  height: 80%
+}
 }
 
 

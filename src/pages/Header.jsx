@@ -41,14 +41,18 @@ export default function Header({}) {
           aria-hidden={false}
           onClose={() => setAnchorE1(null)}
           slotProps={{
-            sx: {
-              "& .MuiMenuItem-root": {
-                fontFamily: "candara",
-                fontSize: "1.5 rem",
-                fontWeight: "bold",
+            paper: {
+              sx: {
+                width: 200,
+                "& .MuiMenuItem-root": {
+                fontFamily: "Candara",
+                fontSize: "1.2rem",
+                color: 'black',
+                textAlign: 'center !Important'
               },
+              }
             },
-          }}
+            }}
         >
           <MenuItem
             onClick={() => {
@@ -57,8 +61,19 @@ export default function Header({}) {
               dispatch(SelectedTerminal(""));
               setAnchorE1(null);
             }}
+            className="d-flex justify-content-center"
           >
             Home
+          </MenuItem>
+          <Divider className="d-none d-xxl-block bg-dark" />
+          <MenuItem
+            onClick={() => {
+              dispatch(NavBarComponent("formControl"));
+              setAnchorE1(null);
+            }}
+            className="d-flex justify-content-center"
+          >
+            User Form
           </MenuItem>
           <Divider className="d-none d-xxl-block bg-dark" />
           {navBarComponent == "layoutDisplay" ? (
@@ -68,8 +83,9 @@ export default function Header({}) {
                   dispatch(NavBarComponent("permitDisplay"));
                   setAnchorE1(null);
                 }}
+                className="d-flex justify-content-center"
               >
-                Switch to Table View
+                Table View
               </MenuItem>
               <Divider className="d-none d-xxl-block bg-dark" />
             </>
@@ -77,16 +93,26 @@ export default function Header({}) {
           {navBarComponent == "permitDisplay" ? (
             <>
               <MenuItem
-                className="d-none d-xxl-block" 
+                className="d-none d-xxl-flex justify-content-center" 
                 onClick={() => {
                   dispatch(NavBarComponent("layoutDisplay"));
                   setAnchorE1(null);
                 }}
               >
-                Switch to Layout View
+                Layout View
               </MenuItem>
+              <Divider className="d-none d-xxl-block bg-dark" />
             </>
           ) : null}
+          <MenuItem
+            className="d-flex justify-content-center" 
+            onClick={() => {
+              dispatch(NavBarComponent("contacts"));
+              setAnchorE1(null);
+            }}
+          >
+            Contacts
+          </MenuItem>
         </Menu>
       ) : null}
 
@@ -115,7 +141,8 @@ export default function Header({}) {
       {/* locationName */}
       <div
         className={`header-locationName h-100
-      fw-bold d-none d-xxl-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
+      d-none d-xxl-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
+      style={{fontFamily: 'calibri'}}
       >
         <Typewriter
           options={{
@@ -125,6 +152,7 @@ export default function Header({}) {
             loop: true,
             cursor: "",
           }}
+          
         />
       </div>
 

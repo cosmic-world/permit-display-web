@@ -403,15 +403,15 @@ export default function PermitDisplay({state}) {
                           width: 30,
                           borderRadius: "50%",
                           background:
-                            val["Permit Type"] == "HOT WORK"
+                            val["Permit Type"] == "Hot Work"
                               ? "#e7028c"
                               : val["Permit Type"] == "COLD WORK"
                                 ? '#d9d90b'
-                                : val["Permit Type"] == "ELECTRICAL WORK"
+                                : val["Permit Type"] == "Electrical Work"
                                   ? "#6ccded"
-                                  : val["Permit Type"] == "HEIGHT + HOT WORK"
+                                  : val["Permit Type"] == "Height + Hot Work"
                                     ? `linear-gradient(to right, #e7028c 50%, #6ccded 50%)`
-                                    : val["Permit Type"] == "HEIGHT + COLD WORK"
+                                    : val["Permit Type"] == "Height + Cold Work"
                                       ? `linear-gradient(to right, yellow 50%, #6ccded 50%)`
                                       : "#ccc",
                         }}
@@ -494,7 +494,7 @@ export default function PermitDisplay({state}) {
                     {permit ? permit["Contractor Supervisor"] : ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    {permit ? permit["Location_Name"] : ""}
+                    {permit ? permit["Location Name"] : ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
                     {permit ? permit["Division"] : ""}

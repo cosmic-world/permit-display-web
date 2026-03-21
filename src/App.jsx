@@ -28,7 +28,7 @@ function App() {
   );
 
     const permit_type_array = PermitList.map(val => val['Permit Type']);
-  const permit_labels = ['HOT WORK ', 'COLD WORK ', 'ELECTRICAL WORK ', 'HEIGHT + HOT WORK ', 'HEIGHT + COLD WORK ']
+  const permit_labels = ['Hot Work ', 'COLD WORK ', 'Electrical Work ', 'Height + Hot Work ', 'Height + Cold Work ']
   const series = permit_labels
     .map(type => { 
       return permit_type_array.filter(item => item == type.trim()).length
@@ -115,10 +115,11 @@ function App() {
           });
           return obj;
         });
-        const filteredData1 = formattedData.length>1 ? formattedData
+       
+        const filteredData1 = formattedData.length>0 ? formattedData
           .filter(
             (ele) =>
-              ele["Location_Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
+              ele["Location Name"].toLowerCase() === (locationName!=='' & locationName!=undefined?locationName.toLowerCase():'test'),
           )
           .filter(
             (ele) =>{
@@ -126,7 +127,7 @@ function App() {
               new Date().toLocaleTimeString("en-GB")
             }
           ):[];
-          
+
         const filteredData2 = filteredData1.map((item) => ({
           Date: formatDate(item.Timestamp),
           ...item,
@@ -141,7 +142,7 @@ function App() {
         );
         dispatch(SetPermitList(filteredData));
         const permit_type_array = filteredData.map(val => val['Permit Type']);
-        const permit_labels = ['HOT WORK ', 'COLD WORK ', 'ELECTRICAL WORK ', 'HEIGHT + HOT WORK ', 'HEIGHT + COLD WORK ']
+        const permit_labels = ['Hot Work ', 'COLD WORK ', 'Electrical Work ', 'Height + Hot Work ', 'Height + Cold Work ']
         const series = permit_labels
           .map(type => { 
             return permit_type_array.filter(item => item == type.trim()).length
