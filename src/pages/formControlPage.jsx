@@ -538,7 +538,7 @@ export default function formControlPage() {
           size="large"
           color="secondary"
           sx={{ width: 200 }}
-          onClick={() => dispatch(NavBarComponent("layoutDisplay"))}
+          onClick={() => dispatch(NavBarComponent("permitDisplay"))}
         >
           Go To Display
         </Button>
