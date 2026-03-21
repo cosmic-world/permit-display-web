@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import ModalDialog from "react-bootstrap/ModalDialog";
 import Draggable from "react-draggable";
-import { Add, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import {
   Button,
   TextField,
@@ -99,6 +99,7 @@ export default function formControlPage() {
         }),
       });
       setSaveLoader(false);
+      handleResetForm()
     } catch (error) {
       setSaveLoader(false);
       console.log("error...", `${error} and also check internet connection`);
@@ -505,24 +506,7 @@ export default function formControlPage() {
             SUBMIT
           </Button>
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-around">
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{
-              width: 150,
-              fontSize: "18px",
-              fontFamily: "Lucida Sans",
-              fontWeight: "normal",
-            }}
-            onClick={() => {
-              handleResetForm();
-            }}
-          >
-            <Add style={{ marginRight: "5px" }} />
-            ADD NEW
-          </Button>
-
+        <Modal.Footer className="d-flex justify-content-center">
           <Button
             variant="contained"
             style={{
