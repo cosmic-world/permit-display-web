@@ -13,6 +13,7 @@ export default function Header({}) {
   const dispatch = useDispatch();
   const navBarComponent = useSelector((state) => state.myApp.navBarComponent);
   const selectedTerminal = useSelector((state) => state.myApp.selectedTerminal);
+  const locationName = selectedTerminal[selectedTerminal.length - 1];
   const [currentTime, setCurrentTime] = useState(new Date());
   const [anchorE1, setAnchorE1] = React.useState(null);
   const open = Boolean(anchorE1);
@@ -33,7 +34,8 @@ export default function Header({}) {
         border: "1px solid #0d6efd",
       }}
     >
-      {navBarComponent != "home" ? (
+      {navBarComponent != "" ?
+      <>
         <Menu
           id="profile-dropdown"
           anchorEl={anchorE1}
@@ -66,6 +68,8 @@ export default function Header({}) {
             Home
           </MenuItem>
           <Divider className="d-none d-xxl-block bg-dark" />
+          {locationName!="" && locationName!=undefined ? (
+          <>
           <MenuItem
             onClick={() => {
               dispatch(NavBarComponent("formControl"));
@@ -76,33 +80,27 @@ export default function Header({}) {
             User Form
           </MenuItem>
           <Divider className="d-none d-xxl-block bg-dark" />
-          {navBarComponent == "layoutDisplay" ? (
-            <>
-              <MenuItem
-                onClick={() => {
-                  dispatch(NavBarComponent("permitDisplay"));
-                  setAnchorE1(null);
-                }}
-                className="d-flex justify-content-center"
-              >
-                Table View
-              </MenuItem>
-              <Divider className="d-none d-xxl-block bg-dark" />
-            </>
-          ) : null}
-          {navBarComponent == "permitDisplay" ? (
-            <>
-              <MenuItem
-                className="d-none d-xxl-flex justify-content-center"
-                onClick={() => {
-                  dispatch(NavBarComponent("layoutDisplay"));
-                  setAnchorE1(null);
-                }}
-              >
-                Layout View
-              </MenuItem>
-              <Divider className="d-none d-xxl-block bg-dark" />
-            </>
+          <MenuItem
+            onClick={() => {
+              dispatch(NavBarComponent("permitDisplay"));
+              setAnchorE1(null);
+            }}
+            className="d-flex justify-content-center"
+          >
+            Table View
+          </MenuItem>
+          <Divider className="d-none d-xxl-block bg-dark" />
+          <MenuItem
+            className="d-none d-xxl-flex justify-content-center"
+            onClick={() => {
+              dispatch(NavBarComponent("layoutDisplay"));
+              setAnchorE1(null);
+            }}
+          >
+            Layout View
+          </MenuItem>
+          <Divider className="d-none d-xxl-block bg-dark" />
+          </>
           ) : null}
           <MenuItem
             className="d-flex justify-content-center"
@@ -114,16 +112,17 @@ export default function Header({}) {
             Contacts
           </MenuItem>
         </Menu>
-      ) : null}
+          </>
+          :null}
 
       <MenuIcon
         style={{
-          cursor: navBarComponent != "home" ? "pointer" : "default",
+          cursor: navBarComponent != ""?'pointer':'default',
           zoom: 1.5,
           color: "black",
         }}
         onClick={(event) =>
-          navBarComponent != "home" ? setAnchorE1(event.currentTarget) : null
+          navBarComponent != ""?setAnchorE1(event.currentTarget):null
         }
       />
       <div
