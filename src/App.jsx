@@ -30,7 +30,7 @@ function App() {
   const permit_type_array = PermitList.map((val) => val["Permit Type"]);
   const permit_labels = [
     "Hot Work ",
-    "COLD WORK ",
+    "Cold Work ",
     "Electrical Work ",
     "Height + Hot Work ",
     "Height + Cold Work ",
@@ -96,7 +96,7 @@ function App() {
   });
 
   const locationName = selectedTerminal[selectedTerminal.length - 1];
-  const SHEET_ID = "1xq4qffj9jqguQn2b8qUvVlIhZwesp2pHiQ29cEPRZEQ";
+  const SHEET_ID = "1Jj8ub1mBS0RylJmadtYn2MenjBHWfX7c4vM_Oci6ydc";
 
   useEffect(() => {
     let intervalId;
@@ -157,7 +157,7 @@ function App() {
         const permit_type_array = filteredData.map((val) => val["Permit Type"]);
         const permit_labels = [
           "Hot Work ",
-          "COLD WORK ",
+          "Cold Work ",
           "Electrical Work ",
           "Height + Hot Work ",
           "Height + Cold Work ",

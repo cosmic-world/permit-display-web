@@ -14,7 +14,7 @@ export default function Home({}) {
   );
   const [passcode, setPasscode] = useState("");
   const locationName = selectedTerminal[selectedTerminal.length - 1];
-  const SHEET_ID = "1xq4qffj9jqguQn2b8qUvVlIhZwesp2pHiQ29cEPRZEQ";
+  const SHEET_ID = "1Jj8ub1mBS0RylJmadtYn2MenjBHWfX7c4vM_Oci6ydc";
 
   useEffect(() => {
     const fetchSheetData = async () => {

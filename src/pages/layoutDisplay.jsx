@@ -67,13 +67,15 @@ export default function PermitDisplay({ state }) {
   const handleSelect = (value, index) => {
     setRowNumber(index);
   };
+
   const handleMenuClose = () => {
     setMenuPosition(null);
     setRowNumber(null);
     setOldRowNumber(null);
     setMark("new");
   };
-  const sheet_url = `https://script.google.com/macros/s/AKfycbxEeoOFk61oKOh_Jhr0nNZzxSONfPXnsflcCkGDQavFFjd-63fgSUbM7Ad2d7alF_ij/exec`;
+  
+  const sheet_url = `https://script.google.com/macros/s/AKfycbzWr167t9azcmb8iEHUYwdjuf77mFuOuA6i1F07QYIKbJHY47UjVitbgW7cCkOrhvA/exec`;
   const handleSubmit = async () => {
     const x_list = PermitList.filter(
       (val) => val["Unique ID"] === oldrowNumber,
@@ -84,12 +86,12 @@ export default function PermitDisplay({ state }) {
     try {
       await fetch(sheet_url, {
         method: "POST",
-        mode: "no-cors",
+        // mode: "no-cors",
         body: new URLSearchParams({
           row: rowNumber + 1,
           updates: JSON.stringify([
-            { col: 14, value: mark === "existing" ? y : markerPosition.mouseY },
-            { col: 15, value: mark === "existing" ? x : markerPosition.mouseX },
+            { col: 13, value: mark === "existing" ? y : markerPosition.mouseY },
+            { col: 14, value: mark === "existing" ? x : markerPosition.mouseX },
           ]),
         }),
       });
@@ -106,8 +108,8 @@ export default function PermitDisplay({ state }) {
           body: new URLSearchParams({
             row: oldrowNumber + 1,
             updates: JSON.stringify([
+              { col: 13, value: "" },
               { col: 14, value: "" },
-              { col: 15, value: "" },
             ]),
           }),
         });
@@ -161,7 +163,6 @@ export default function PermitDisplay({ state }) {
         <MenuItem className="m-0 p-1">
           <Select
             defaultValue=""
-            // onChange={(e) => handleSelect(e)}
             size="small"
             style={{ width: 300, fontFamily: "lucida sans", fontSize: 14 }}
           >
@@ -356,15 +357,6 @@ export default function PermitDisplay({ state }) {
                 />
                 {PermitList.filter((val) => val.page_left && val.page_top).map(
                   (val, index) => {
-                    const text = Object.entries(val)
-                      .filter(
-                        ([key]) =>
-                          key !== "" &&
-                          key !== "page_top" &&
-                          key !== "page_left",
-                      )
-                      .map(([key, value]) => `${key} : ${value}`)
-                      .join("\n");
                     return (
                       <Tooltip
                         key={index}
@@ -408,8 +400,8 @@ export default function PermitDisplay({ state }) {
                         }
                       >
                         <div
-                          key={index}
                           onDoubleClick={(e) => {
+                            e.stopPropagation();
                             handleClick(e, "existing");
                             setOldRowNumber(val["Unique ID"]);
                           }}
@@ -426,7 +418,7 @@ export default function PermitDisplay({ state }) {
                             background:
                               val["Permit Type"] == "Hot Work"
                                 ? "#e7028c"
-                                : val["Permit Type"] == "COLD WORK"
+                                : val["Permit Type"] == "Cold Work"
                                   ? "#d9d90b"
                                   : val["Permit Type"] == "Electrical Work"
                                     ? "#6ccded"

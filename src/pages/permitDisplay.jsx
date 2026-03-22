@@ -6,7 +6,7 @@ import "../css/page_layout.css";
 export default function PermitDisplay() {
   const { PermitList } = useSelector((state) => state.myApp);
   const [startIndex, setstartIndex] = useState(0);
-  const $table = document.querySelector(".ttes_table_div");
+  const $table = document.querySelector(".ttes_table_view");
   const $table_height = $table ? $table.clientHeight : 500;
   const $thead = document.querySelector(".table-head");
   const $thead_height = $thead ? $thead.clientHeight : 50;
@@ -42,7 +42,7 @@ export default function PermitDisplay() {
         backgroundColor: "#dee4ea",
       }}
     >
-      <div className="ttes_table_div1">
+      <div className="ttes_table_view">
         <Table bordered hover className="ttes_table">
           <thead className="table-head">
             <tr>

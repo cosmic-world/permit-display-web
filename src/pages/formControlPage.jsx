@@ -61,7 +61,7 @@ export default function formControlPage() {
     setShow(false);
   };
 
-  const sheet_url = `https://script.google.com/macros/s/AKfycbwy0x_kexcRpJk9yYJqXdZHkIRcATavhupOYqrBlPPHRDQIqLKCv9tDpm_ysDqC0EXZ/exec`;
+  const sheet_url = `https://script.google.com/macros/s/AKfycbza765IhOupfbFh9vvLrUcTkT9ewwQmfIJUxFPOdQk-D-jDEn5Z8Yudp7r_Cz1lf-7R/exec`;
 
   const handlePostData = async () => {
     if (
@@ -191,7 +191,7 @@ export default function formControlPage() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    error={division == ""}
+                    error={permitType == ""}
                     InputProps={{
                       ...params.InputProps,
                       style: {
