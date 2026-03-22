@@ -121,7 +121,7 @@ export default function PermitDisplay({ state }) {
   };
 
   const [imgExists, setImgExists] = useState(true);
-  const imagePath = `${process.env.PUBLIC_URL}/asset/${locationName ? locationName.replace(/\s+/g, "_").toLowerCase() : "No"}.png`;
+  const imagePath = `${process.env.PUBLIC_URL}/asset/${locationName ? locationName.replace(/\s+/g, "_").toLowerCase() : ""}.png`;
   useEffect(() => {
     const img = new Image();
     img.src = imagePath;
@@ -343,7 +343,7 @@ export default function PermitDisplay({ state }) {
               To show the work spot on the layout, double click the location on the layout and select the permit records from the dropdown
             </label>
           {imgExists ? (
-            <div className="p-3 h-100 w-100" style={{ border: "1px solid black" }}>
+            <div className="p-1 w-100" style={{ border: "1px solid black", height: 'calc(100% - 40px' }}>
               <div
                 style={{
                   position: "relative",

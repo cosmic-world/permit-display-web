@@ -46,9 +46,10 @@ function App() {
           });
           return obj;
         });
+        const filteredData = formattedData.filter(val=>val['Active']=='Y')
         dispatch(
           SetLocationList(
-            formattedData.map((obj) =>
+            filteredData.map((obj) =>
               Object.fromEntries(
                 Object.entries(obj).filter(
                   ([key]) => !["Passcode", "Admin_pass"].includes(key),
