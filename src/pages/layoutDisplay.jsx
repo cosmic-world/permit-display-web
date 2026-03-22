@@ -164,7 +164,7 @@ export default function PermitDisplay({ state }) {
           <Select
             defaultValue=""
             size="small"
-            style={{ width: 300, fontFamily: "lucida sans", fontSize: 14 }}
+            style={{ width: 300, fontFamily: "Lucida Sans", fontSize: 14 }}
           >
             {PermitList.filter(
               (val) => val.page_left == "" && val.page_top == "",
@@ -187,7 +187,7 @@ export default function PermitDisplay({ state }) {
                     handleSelect(text, val["Unique ID"]);
                   }}
                   style={{
-                    fontFamily: "lucida sans",
+                    fontFamily: "Lucida Sans",
                     fontSize: 14,
                     display: "block",
                   }}
@@ -335,8 +335,15 @@ export default function PermitDisplay({ state }) {
               />
             </div>
           </div>
+          <div className="d-flex flex-column h-100 w-100 justify-content-start align-items-center">
+            <label className="d-flex w-100 justify-content-center align-items-center" 
+            style={{backgroundColor:'white',border: "1px solid black", borderBottom: 0, fontSize: "20px", fontWeight:'bold',
+                              fontFamily: "Lucida Sans", minHeight: '40px'}}
+            >
+              To show the work spot on the layout, double click the location on the layout and select the permit records from the dropdown
+            </label>
           {imgExists ? (
-            <div className="p-3 h-100 w-100" style={{ border: "1px solid" }}>
+            <div className="p-3 h-100 w-100" style={{ border: "1px solid black" }}>
               <div
                 style={{
                   position: "relative",
@@ -369,7 +376,7 @@ export default function PermitDisplay({ state }) {
                               color: "black",
                               border: "1px solid #ccc",
                               fontSize: "12px",
-                              fontFamily: "lucida sans",
+                              fontFamily: "Lucida Sans",
                             },
                           },
                           arrow: {
@@ -453,6 +460,7 @@ export default function PermitDisplay({ state }) {
               Layout Not Available
             </div>
           )}
+          </div>
         </div>
         <div className="ttes_table_div px-2">
           <Table bordered hover className="ttes_table m-0">
