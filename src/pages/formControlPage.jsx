@@ -278,7 +278,7 @@ export default function formControlPage() {
                 alignContent: "center",
               }}
             >
-              Receiver Name
+              Officer Name
             </div>
             <div className="col-8">
               <TextField
