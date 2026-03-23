@@ -16,9 +16,11 @@ function formatDate(date1) {
   const date = new Date(...date1.slice(5, -1).split(","));
   return date.toLocaleDateString("en-GB").replace(",", "").replaceAll("/", "-");
 }
-function formatTime(date1) {
-  const date = new Date(...date1.slice(5, -1).split(","));
-  return date.toLocaleTimeString("en-GB", { hour12: false }).replace(",", "");
+function formatTime(dateStr) {
+  const parts = dateStr.match(/\d+/g);
+  const hour = parts[3].padStart(2, '0');
+  const minute = parts[4].padStart(2, '0');
+  return `${hour}:${minute}`
 }
 
 function App() {
@@ -142,10 +144,12 @@ function App() {
             : [];
 
         const filteredData2 = filteredData1.map((item) => ({
-          Date: formatDate(item.Timestamp),
           ...item,
+          Date: formatDate(item.Timestamp),
+          "Clearance given from": formatTime(item["Clearance given from"]),
+          "Clearance given till": formatTime(item["Clearance given till"]),
         }));
-
+        
         const filteredData = filteredData2.map((obj) =>
           Object.fromEntries(
             Object.entries(obj).filter(
