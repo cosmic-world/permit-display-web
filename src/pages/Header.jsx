@@ -143,7 +143,7 @@ export default function Header({}) {
         }
       />
       <div
-        className="d-flex justify-content-center align-items-center h-100"
+        className="d-flex flex-grow-1 justify-content-center align-items-center h-100"
         style={{
           color: "white",
           backgroundColor: "#0d6efd",
@@ -157,8 +157,8 @@ export default function Header({}) {
       {/* locationName */}
       <div
         className={`header-locationName h-100
-      d-none d-xxl-flex flex-grow-1 justify-content-center align-items-center text-white user-select-none`}
-        style={{ fontFamily: "calibri" }}
+      d-none d-xxl-flex justify-content-center align-items-center text-white user-select-none`}
+        style={{ fontFamily: "calibri", width: '50%' }}
       >
         <Typewriter
           options={{
