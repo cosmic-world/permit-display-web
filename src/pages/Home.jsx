@@ -1,18 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/page_layout.css";
 import { Cascader } from "antd";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Select, InputAdornment, OutlinedInput } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { NavBarComponent, SelectedTerminal } from "../action/userSlice";
+import { NavBarComponent, SelectedTerminal, SetUsertype } from "../action/userSlice";
+import MenuItem from '@mui/material/MenuItem';
+import {Password, Key, AccountCircle, LocationOn} from '@mui/icons-material';
+import { UserOutlined } from "@ant-design/icons";
 
 export default function Home({}) {
   const dispatch = useDispatch();
   const [pass, SetPass] = useState("");
   const [admin_pass, SetAdmin_pass] = useState("");
-  const { selectedTerminal, locationList } = useSelector(
+  const { selectedTerminal, locationList, usertype } = useSelector(
     (state) => state.myApp,
   );
   const [passcode, setPasscode] = useState("");
+  const [admin_passcode, setAdmin_Passcode] = useState("");
   const locationName = selectedTerminal[selectedTerminal.length - 1];
   const SHEET_ID = "1Jj8ub1mBS0RylJmadtYn2MenjBHWfX7c4vM_Oci6ydc";
 
@@ -44,7 +48,7 @@ export default function Home({}) {
               : "test"),
         );
         setPasscode(filteredData.length > 0 ? filteredData[0]["Passcode"] : "");
-        SetAdmin_pass(
+        setAdmin_Passcode(
           filteredData.length > 0 ? filteredData[0]["Admin_pass"] : "",
         );
       } catch (error) {
@@ -94,10 +98,11 @@ export default function Home({}) {
             : `${selectedTerminal[0]} / ${selectedTerminal[selectedTerminal.length - 1]}`
         }
         style={{
-          width: 360,
-          height: 60,
-          marginBottom: 20,
+          width: '360px',
+          height: '60px',
+          marginBottom: '20px',
         }}
+        prefix={<LocationOn style={{ color: "#0046bb" }} />}
         onChange={(newValue) => {
           newValue
             ? dispatch(SelectedTerminal(newValue))
@@ -106,14 +111,71 @@ export default function Home({}) {
       />
       <TextField
         id="passcode"
-        label="Enter Passcode For This Location"
+        placeholder="Enter Passcode For This Location"
         size="large"
         value={pass}
+        error={pass!="" && pass!=passcode}
         style={{ marginBottom: 20, width: 360, backgroundColor: "white" }}
-        InputProps={{ inputProps: { autoComplete: "off" } }}
         type={"password"}
         required
         onChange={(e) => SetPass(e.target.value.trim())}
+        InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Password style={{ color: "#0046bb" }} />
+              </InputAdornment>
+            ),
+            inputProps: {
+              autoComplete: "off",
+            },
+        }}
+      />
+      <Select
+          displayEmpty
+          defaultValue="Normal"
+          value={usertype}
+          onChange={(event)=>{dispatch(SetUsertype(event.target.value));SetAdmin_pass('')}}
+          style={{width: '360px', marginBottom: '20px', backgroundColor: 'white',
+            fontFamily: 'Calibri', fontSize: '20px'
+          }}
+          input={
+            <OutlinedInput
+              startAdornment={
+                <InputAdornment position="start">
+                  <AccountCircle style={{ color: "#0046bb" }} />
+                </InputAdornment>
+              }
+            />
+          }
+        >
+          <MenuItem disabled value="">
+            <em>Select User Type</em>
+          </MenuItem>
+          <MenuItem value={'Normal'}>Normal</MenuItem>
+          <MenuItem value={'Admin'}>Admin</MenuItem>
+      </Select>
+        <TextField
+        id="admin_pass"
+        placeholder={usertype=='Admin'?"Enter Admin Passcode"
+          :"Not Required For 'Normal' User"}
+        size="large"
+        value={admin_pass}
+        style={{ marginBottom: 20, width: 360, backgroundColor: "white" }}
+        type={"password"}
+        error={admin_pass!="" && admin_pass!=admin_passcode}
+        required
+        onChange={(e) => SetAdmin_pass(e.target.value.trim())}
+        disabled={usertype=='Normal'}
+        InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Key style={{ color: "#0046bb" }} />
+              </InputAdornment>
+            ),
+            inputProps: {
+              autoComplete: "off",
+            },
+        }}
       />
       <Button
         onClick={(e) => {
@@ -124,8 +186,8 @@ export default function Home({}) {
         disabled={
           selectedTerminal === "" ||
           selectedTerminal === undefined ||
-          pass === "" ||
-          pass != passcode
+          usertype=='Normal'? (pass === "" || pass != passcode) : 
+          ((pass === "" || pass != passcode) || (admin_pass === "" || admin_pass != admin_passcode))
         }
         sx={{
           width: 200,

@@ -107,15 +107,13 @@ function App() {
         const response = await fetch(
           `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=permit_details`,
         );
-        const text = await response.text();
+        const text = await response.text();        
         // Remove unwanted characters from response
         const json = JSON.parse(text.substring(47).slice(0, -2));
-
         const rows = json.table.rows.map((row) =>
           row.c.map((ele) => ele?.v ?? ""),
         );
         const cols = json.table.cols.map((col) => col.label);
-
         // Convert rows into simple array
         const formattedData = rows.map((row) => {
           const obj = {};
@@ -124,7 +122,6 @@ function App() {
           });
           return obj;
         });
-
         const filteredData1 =
           formattedData.length > 0
             ? formattedData
@@ -137,7 +134,7 @@ function App() {
                 )
                 .filter((ele) => {
                   return (
-                    ele["Clearance given till"] >
+                    formatTime(ele["Clearance given till"]) >
                     new Date().toLocaleTimeString("en-GB")
                   );
                 })
@@ -175,7 +172,7 @@ function App() {
           series: series,
         }));
       } catch (error) {
-        console.log("error...", `${error} and also check internet connection`);
+        console.log("error2...", `${error} and also check internet connection`);
       }
     };
     if (selectedTerminal !== "") {

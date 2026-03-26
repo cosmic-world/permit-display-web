@@ -11,8 +11,7 @@ import { Menu, MenuItem, Divider } from "@mui/material";
 
 export default function Header({}) {
   const dispatch = useDispatch();
-  const navBarComponent = useSelector((state) => state.myApp.navBarComponent);
-  const selectedTerminal = useSelector((state) => state.myApp.selectedTerminal);
+  const {selectedTerminal, navBarComponent, usertype} = useSelector((state) => state.myApp);
   const locationName = selectedTerminal[selectedTerminal.length - 1];
   const [currentTime, setCurrentTime] = useState(new Date());
   const [anchorE1, setAnchorE1] = React.useState(null);
@@ -105,6 +104,18 @@ export default function Header({}) {
                   Layout View (Desktop Only)
                 </MenuItem>
                 <Divider className="bg-dark" />
+                <MenuItem
+                  selected={navBarComponent == "modifyRecords"}
+                  className="d-flex justify-content-center"
+                  disabled={usertype!='Admin'}
+                  onClick={() => {
+                    dispatch(NavBarComponent("modifyRecords"));
+                    setAnchorE1(null);
+                  }}
+                >
+                  Modify Records (Admin Only)
+                </MenuItem>
+                <Divider className="bg-dark" />
               </>
             ) : null}
             <MenuItem
@@ -132,7 +143,7 @@ export default function Header({}) {
         }
       />
       <div
-        className="d-flex flex-grow-1 justify-content-center align-items-center h-100"
+        className="d-flex justify-content-center align-items-center h-100"
         style={{
           color: "white",
           backgroundColor: "#0d6efd",
