@@ -88,7 +88,7 @@ export default function PermitDisplay({ state }) {
         method: "POST",
         // mode: "no-cors",
         body: new URLSearchParams({
-          row: rowNumber + 1,
+          row: rowNumber,
           updates: JSON.stringify([
             { col: 13, value: mark === "existing" ? y : markerPosition.mouseY },
             { col: 14, value: mark === "existing" ? x : markerPosition.mouseX },
@@ -106,7 +106,7 @@ export default function PermitDisplay({ state }) {
           method: "POST",
           mode: "no-cors",
           body: new URLSearchParams({
-            row: oldrowNumber + 1,
+            row: oldrowNumber,
             updates: JSON.stringify([
               { col: 13, value: "" },
               { col: 14, value: "" },
@@ -470,7 +470,7 @@ export default function PermitDisplay({ state }) {
                 <th>PERMIT TYPE</th>
                 <th>WORK DESCRIPTION</th>
                 <th>WORK LOCATION</th>
-                <th>RECEIVER NAME</th>
+                <th>OFFICER NAME</th>
                 <th>CLEARANCE FROM</th>
                 <th>CLEARANCE TILL</th>
                 <th>CONTRACTOR NAME</th>

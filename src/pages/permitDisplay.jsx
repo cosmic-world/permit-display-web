@@ -50,7 +50,7 @@ export default function PermitDisplay() {
               <th>PERMIT TYPE</th>
               <th>WORK DESCRIPTION</th>
               <th>WORK LOCATION</th>
-              <th>RECEIVER NAME</th>
+              <th>OFFICER NAME</th>
               <th>CLEARANCE FROM</th>
               <th>CLEARANCE TILL</th>
               <th>CONTRACTOR NAME</th>

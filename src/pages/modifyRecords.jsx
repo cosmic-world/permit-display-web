@@ -266,7 +266,7 @@ const ModifyRecords = () => {
     },
     {
       field: "Receiver Name",
-      headerName: "Receiver Name",
+      headerName: "Officer Name",
       width: 180,
       editable: true,
       align: "center",
