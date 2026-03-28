@@ -351,7 +351,7 @@ const ModifyRecords = () => {
       width: 100,
       cellClassName: "actions",
       getActions: (params) => {
-        const id = params.row['Unique ID']
+        const id = params.id
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
         if (isInEditMode) {
           return [
@@ -377,7 +377,6 @@ const ModifyRecords = () => {
             label="Edit"
             className="textPrimary"
             onClick={() => {
-              setSelectedId(id);
               handleEditClick(id)
             }}
             color="inherit"
@@ -388,7 +387,7 @@ const ModifyRecords = () => {
             icon={<Delete />}
             label="Delete"
             onClick={() => {
-              setSelectedId(id);
+              setSelectedId(params.row['Unique ID']);
               setShow(true)
             }}
             color="danger"
