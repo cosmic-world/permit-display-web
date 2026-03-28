@@ -158,9 +158,9 @@ const ModifyRecords = () => {
           row: id,
         }),
       });
-      setTimeout(fetchSheetData, 2000);
       setSaveLoader(false)
       setSuccessOpen(true);
+      fetchSheetData()
     } catch (error) {
       setFailOpen(true)
       console.log("error admin...", `${error} and also check internet connection`);
