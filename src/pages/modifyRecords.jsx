@@ -99,12 +99,6 @@ const ModifyRecords = () => {
                   ? locationName.toLowerCase()
                   : "test"),
             )
-            .filter((ele) => {
-              return (
-                formatTime(ele["Clearance Till"]) >
-                new Date().toLocaleTimeString("en-GB")
-              );
-            })
           : [];
 
       const filteredData2 = filteredData1.map((item) => ({
