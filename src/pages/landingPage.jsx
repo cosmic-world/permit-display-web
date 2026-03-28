@@ -4,6 +4,7 @@ import PermitDisplay from "./permitDisplay";
 import LayoutDisplay from "./layoutDisplay";
 import ProgressPage from "./ProgressPage";
 import FormControlPage from "./formControlPage";
+import ModifyRecords from "./modifyRecords";
 import Contacts from "./contacts";
 
 export default function LandingPage({ state }) {
@@ -19,6 +20,7 @@ export default function LandingPage({ state }) {
         <LayoutDisplay state={state} />
       ) : null}
       {navBarComponent === "contacts" ? <Contacts /> : null}
+      {navBarComponent === "modifyRecords" ? <ModifyRecords /> : null}
     </div>
   );
 }

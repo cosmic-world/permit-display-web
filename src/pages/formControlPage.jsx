@@ -89,8 +89,8 @@ export default function formControlPage() {
             "Work Description": workDesc,
             "Work Location": workLocation,
             "Receiver Name": receiverName,
-            "Clearance given from": clrStart,
-            "Clearance given till": clrEnd,
+            "Clearance From": clrStart,
+            "Clearance Till": clrEnd,
             "Contractor Name": contractorName,
             "Contractor Supervisor": supervisorName,
             "Location Name": locationName,
@@ -309,7 +309,7 @@ export default function formControlPage() {
                 alignContent: "center",
               }}
             >
-              Clearance Given From
+              Clearance From
             </div>
             <div className="col-8">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -353,7 +353,7 @@ export default function formControlPage() {
                 alignContent: "center",
               }}
             >
-              Clearance Given Till
+              Clearance Till
             </div>
             <div className="col-8">
               <LocalizationProvider dateAdapter={AdapterDayjs}>

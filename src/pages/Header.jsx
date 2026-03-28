@@ -152,7 +152,8 @@ export default function Header({}) {
       >
         {selectedTerminal === "" || selectedTerminal === undefined
           ? ""
-          : selectedTerminal[selectedTerminal.length - 1]}
+          : usertype=='Admin'?`${selectedTerminal[selectedTerminal.length - 1]} (Admin)`
+          :selectedTerminal[selectedTerminal.length - 1]}
       </div>
       {/* locationName */}
       <div

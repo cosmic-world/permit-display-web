@@ -134,7 +134,7 @@ function App() {
                 )
                 .filter((ele) => {
                   return (
-                    formatTime(ele["Clearance given till"]) >
+                    formatTime(ele["Clearance Till"]) >
                     new Date().toLocaleTimeString("en-GB")
                   );
                 })
@@ -143,8 +143,8 @@ function App() {
         const filteredData2 = filteredData1.map((item) => ({
           ...item,
           Date: formatDate(item.Timestamp),
-          "Clearance given from": formatTime(item["Clearance given from"]),
-          "Clearance given till": formatTime(item["Clearance given till"]),
+          "Clearance From": formatTime(item["Clearance From"]),
+          "Clearance Till": formatTime(item["Clearance Till"]),
         }));
         
         const filteredData = filteredData2.map((obj) =>

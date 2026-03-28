@@ -504,10 +504,10 @@ export default function PermitDisplay({ state }) {
                       {permit ? permit["Receiver Name"] : ""}
                     </td>
                     <td style={{ textAlign: "center" }}>
-                      {permit ? permit["Clearance given from"] : ""}
+                      {permit ? permit["Clearance From"] : ""}
                     </td>
                     <td style={{ textAlign: "center" }}>
-                      {permit ? permit["Clearance given till"] : ""}
+                      {permit ? permit["Clearance Till"] : ""}
                     </td>
                     <td style={{ textAlign: "center" }}>
                       {permit ? permit["Contractor Name"] : ""}
