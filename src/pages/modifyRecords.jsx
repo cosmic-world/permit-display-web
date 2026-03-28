@@ -64,7 +64,6 @@ const ModifyRecords = () => {
   const locationName = selectedTerminal[selectedTerminal.length - 1];
   const sheet_url = `https://script.google.com/macros/s/AKfycbzWr167t9azcmb8iEHUYwdjuf77mFuOuA6i1F07QYIKbJHY47UjVitbgW7cCkOrhvA/exec`;
   const delete_sheet_url = `https://script.google.com/macros/s/AKfycbzkp6GfBX8y_DJeLV4bR9Pm5slAtKNWaxTS4YNpzVczo2MUx3aOT6JMLD0k5PsZ-cnB/exec`
-  const [showdialog, setShowdialog] = useState(false);
 
   const fetchSheetData = async () => {
     try {
@@ -162,6 +161,7 @@ const ModifyRecords = () => {
       setSuccessOpen(true);
       fetchSheetData()
     } catch (error) {
+      setSaveLoader(false)
       setFailOpen(true)
       console.log("error admin...", `${error} and also check internet connection`);
     }
@@ -207,6 +207,7 @@ const ModifyRecords = () => {
       setSaveLoader(false)
       setSuccessOpen(true);
     } catch (error) {
+      setSaveLoader(false)
       setFailOpen(true)
       console.log("error admin...", `${error} and also check internet connection`);
     }
