@@ -79,13 +79,16 @@ const ModifyRecords = () => {
       );
       const cols = json.table.cols.map((col) => col.label);
       // Convert rows into simple array
-      const formattedData = rows.map((row) => {
+      const formattedData1 = rows.map((row) => {
         const obj = {};
         row.forEach((cell, index) => {
           obj[cols[index]] = cell;
         });
         return obj;
       });
+        const formattedData = formattedData1.filter(
+          obj => !(Object.keys(obj).length === 1 && obj[""] === "")
+        );
       const filteredData1 =
         formattedData.length > 0
           ? formattedData
@@ -131,8 +134,10 @@ const ModifyRecords = () => {
   };
 
   useEffect(() => {
-    fetchSheetData();
-  }, []);
+    if (selectedTerminal !== "") {
+      fetchSheetData();
+    }
+  }, [locationName]);
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -159,7 +164,7 @@ const ModifyRecords = () => {
           row: id,
         }),
       });
-      fetchSheetData();
+      setTimeout(fetchSheetData, 2000);
       setSaveLoader(false)
       setSuccessOpen(true);
     } catch (error) {

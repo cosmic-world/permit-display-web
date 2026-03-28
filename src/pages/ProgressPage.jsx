@@ -59,7 +59,7 @@ function App() {
           ),
         );
       } catch (error) {
-        console.log("error...", `${error} and also check internet connection`);
+        console.log("error progress...", `${error} and also check internet connection`);
       }
     };
     fetchSheetData();

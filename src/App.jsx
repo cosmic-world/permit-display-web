@@ -115,13 +115,17 @@ function App() {
         );
         const cols = json.table.cols.map((col) => col.label);
         // Convert rows into simple array
-        const formattedData = rows.map((row) => {
+        const formattedData1 = rows.map((row) => {
           const obj = {};
           row.forEach((cell, index) => {
             obj[cols[index]] = cell;
           });
           return obj;
         });
+
+        const formattedData = formattedData1.filter(
+          obj => !(Object.keys(obj).length === 1 && obj[""] === "")
+        );
         const filteredData1 =
           formattedData.length > 0
             ? formattedData
@@ -139,14 +143,13 @@ function App() {
                   );
                 })
             : [];
-
         const filteredData2 = filteredData1.map((item) => ({
           ...item,
           Date: formatDate(item.Timestamp),
           "Clearance From": formatTime(item["Clearance From"]),
           "Clearance Till": formatTime(item["Clearance Till"]),
         }));
-        
+
         const filteredData = filteredData2.map((obj) =>
           Object.fromEntries(
             Object.entries(obj).filter(
@@ -172,7 +175,7 @@ function App() {
           series: series,
         }));
       } catch (error) {
-        console.log("error2...", `${error} and also check internet connection`);
+        console.log("error app...", `${error} and also check internet connection`);
       }
     };
     if (selectedTerminal !== "") {

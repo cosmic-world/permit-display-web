@@ -98,7 +98,7 @@ export default function PermitDisplay({ state }) {
       mark != "existing" ? setSaveLoader(false) : null;
       handleMenuClose();
     } catch (error) {
-      console.log("error...", `${error} and also check internet connection`);
+      console.log("error layout new...", `${error} and also check internet connection`);
     }
     if (mark === "existing") {
       try {
@@ -115,7 +115,7 @@ export default function PermitDisplay({ state }) {
         });
         setSaveLoader(false);
       } catch (error) {
-        console.log("error...", `${error} and also check internet connection`);
+        console.log("error layout existing...", `${error} and also check internet connection`);
       }
     }
   };

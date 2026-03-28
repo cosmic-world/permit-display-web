@@ -61,7 +61,7 @@ export default function formControlPage() {
     setShow(false);
   };
 
-  const sheet_url = `https://script.google.com/macros/s/AKfycbza765IhOupfbFh9vvLrUcTkT9ewwQmfIJUxFPOdQk-D-jDEn5Z8Yudp7r_Cz1lf-7R/exec`;
+  const sheet_url = `https://script.google.com/macros/s/AKfycbydZTOReHp3uRY08gjk9cFxzFNoH3-gAGEewExoWhJDMtJZ9NYXDD6XWVMer5aoLcGg/exec`;
 
   const handlePostData = async () => {
     if (
@@ -94,7 +94,7 @@ export default function formControlPage() {
             "Contractor Name": contractorName,
             "Contractor Supervisor": supervisorName,
             "Location Name": locationName,
-            Division: division,
+            "Division": division,
           }),
         }),
       });
@@ -102,7 +102,7 @@ export default function formControlPage() {
       handleResetForm()
     } catch (error) {
       setSaveLoader(false);
-      console.log("error...", `${error} and also check internet connection`);
+      console.log("error form...", `${error} and also check internet connection`);
     }
   };
 
@@ -318,7 +318,7 @@ export default function formControlPage() {
                     defaultValue={dayjs()}
                     type="time"
                     name="clr-start-time"
-                    value={clrStart}
+                    // value={clrStart}
                     slotProps={{
                       textField: {
                         fullWidth: true,
@@ -374,7 +374,7 @@ export default function formControlPage() {
                         },
                       },
                     }}
-                    value={clrEnd}
+                    // value={clrEnd}
                     onChange={(newValue) => {
                       if (newValue) {
                         setClrEnd(newValue.format("HH:mm"));
