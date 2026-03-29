@@ -318,7 +318,7 @@ export default function formControlPage() {
                     defaultValue={dayjs()}
                     type="time"
                     name="clr-start-time"
-                    // value={clrStart}
+                    value={clrStart}
                     slotProps={{
                       textField: {
                         fullWidth: true,
@@ -374,7 +374,7 @@ export default function formControlPage() {
                         },
                       },
                     }}
-                    // value={clrEnd}
+                    value={clrEnd}
                     onChange={(newValue) => {
                       if (newValue) {
                         setClrEnd(newValue.format("HH:mm"));
