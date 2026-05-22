@@ -37,7 +37,8 @@ function App() {
         const json = JSON.parse(text.substring(47).slice(0, -2));
         const rows = json.table.rows.map((row) => row.c.map((ele) => ele.v));
         const cols = json.table.cols.map((col) => col.label);
-
+        console.log("cols",cols)
+        console.log("rows",rows)
         // Convert rows into simple array
         const formattedData = rows.map((row) => {
           const obj = {};
@@ -46,6 +47,7 @@ function App() {
           });
           return obj;
         });
+        console.log("formattedData",formattedData)
         const filteredData = formattedData.filter(val=>val['Active']=='Y')
         dispatch(
           SetLocationList(

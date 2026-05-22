@@ -197,7 +197,8 @@ export default function Header({}) {
           fontWeight: "bold",
         }}
       >
-        <label>Developed by TAS R&D</label>
+        <label>{`Developed by ${selectedTerminal[selectedTerminal.length - 1]=="Coimbatore Termina"?
+          "Manas Roy":"TAS R&D"}`}</label>
       </div>
     </div>
   );
